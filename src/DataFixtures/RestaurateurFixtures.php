@@ -10,20 +10,44 @@ class RestaurateurFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        $restaurateurs=[
 
-        $restaurateur = new Restaurateur();
-        
-        $manager->persist($restaurateur);
-        $manager->flush();
-       /* $restaurateurs = [
-        ['name' => 'Jean'
-        'location'
-        
+        ['phone' => 0606060606,
+         'location'=>'Paris',
+         'email' => 'jeanneymar@gmail.com',
+         'password' => 'jeanney123',
+         'name' => 'Jean',
+         'firstName' => 'Neymar',
+         'premium' => true,
         ],
+
+        ['phone' => 0707070707,
+         'location'=>'Paris',
+         'email' => 'thibob@gmail.com',
+         'password' => 'thithilebandit91',
+         'name' => 'Thibaut',
+         'firstName' => 'Bob',
+         'premium' => false,
+        ],
+
         ];
 
-        $manager->flush();
-    }
-    */
+
+
+
+        foreach ($restaurateurs as $restauData) {
+            $restaurateur = new Restaurateur();
+            $restaurateur->setPhone($restauData['phone']);
+            $restaurateur->setLocation($restauData['location']);
+            $restaurateur->setEmail($restauData['email']);
+            $restaurateur->setPassword($restauData['password']);
+            $restaurateur->setName($restauData['name']);
+            $restaurateur->setFirstName($restauData['firstName']);
+            $restaurateur->setPremium($restauData['premium']);
+
+            $manager->persist($restaurateur);
+
+            $this->addReference($restauData['name'], $restaurateur);
+        }
     }
 }

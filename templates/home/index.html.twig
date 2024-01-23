@@ -3,7 +3,19 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<h1 class="text-red-400 text-3xl"> Travaillez bande d'esclaves </h1>
+    <h1 class="text-red-400 text-3xl"> Travaillez bande d'esclaves </h1>
 
-<a href="{{ path('app_login') }}">Marie Geoise</a>
+    {% if categories is not empty %}
+        {% for category in categories %}
+            <h1>{{ category.name }} </h1>
+            <div class="w-[40px] h-[40px]">
+                <img src="{{ category.image }}" alt="Image illustrant la catégorie" />
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>Aucune catégorie trouvée</p>
+    {% endif %}
+
+    <a href="{{ path('app_login') }}">Marie Geoise</a>
 {% endblock %}
