@@ -12,7 +12,7 @@ class RestaurateurFixtures extends Fixture
     {
         $restaurateurs = [
             [
-                'phone' => 0606060606,
+                'phone' => '0606060606',
                 'location' => 'Paris',
                 'email' => 'jeanneymar@gmail.com',
                 'password' => 'jeanney123',
@@ -21,7 +21,7 @@ class RestaurateurFixtures extends Fixture
                 'premium' => true,
             ],
             [
-                'phone' => 0707070707,
+                'phone' => '0707070707',
                 'location' => 'Paris',
                 'email' => 'thibob@gmail.com',
                 'password' => 'thithilebandit91',
