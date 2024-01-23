@@ -10,30 +10,26 @@ class RestaurateurFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $restaurateurs=[
-
-        ['phone' => 0606060606,
-         'location'=>'Paris',
-         'email' => 'jeanneymar@gmail.com',
-         'password' => 'jeanney123',
-         'name' => 'Jean',
-         'firstName' => 'Neymar',
-         'premium' => true,
-        ],
-
-        ['phone' => 0707070707,
-         'location'=>'Paris',
-         'email' => 'thibob@gmail.com',
-         'password' => 'thithilebandit91',
-         'name' => 'Thibaut',
-         'firstName' => 'Bob',
-         'premium' => false,
-        ],
-
+        $restaurateurs = [
+            [
+                'phone' => 0606060606,
+                'location' => 'Paris',
+                'email' => 'jeanneymar@gmail.com',
+                'password' => 'jeanney123',
+                'name' => 'Jean',
+                'firstName' => 'Neymar',
+                'premium' => true,
+            ],
+            [
+                'phone' => 0707070707,
+                'location' => 'Paris',
+                'email' => 'thibob@gmail.com',
+                'password' => 'thithilebandit91',
+                'name' => 'Thibaut',
+                'firstName' => 'Bob',
+                'premium' => false,
+            ],
         ];
-
-
-
 
         foreach ($restaurateurs as $restauData) {
             $restaurateur = new Restaurateur();
@@ -44,10 +40,14 @@ class RestaurateurFixtures extends Fixture
             $restaurateur->setName($restauData['name']);
             $restaurateur->setFirstName($restauData['firstName']);
             $restaurateur->setPremium($restauData['premium']);
+            $restaurateur->setCreatedAt(new \DateTimeImmutable());
+            $restaurateur->setUpdatedAt(new \DateTimeImmutable());
 
             $manager->persist($restaurateur);
 
             $this->addReference($restauData['name'], $restaurateur);
         }
+
+        $manager->flush();
     }
 }
