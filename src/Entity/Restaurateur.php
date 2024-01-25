@@ -6,6 +6,7 @@ use App\Repository\RestaurateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 #[ORM\Entity(repositoryClass: RestaurateurRepository::class)]
 class Restaurateur extends User
@@ -46,6 +47,11 @@ class Restaurateur extends User
         $this->location = $location;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_RESTAURATEUR'];
     }
 
     /**

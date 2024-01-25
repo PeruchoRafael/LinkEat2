@@ -11,12 +11,16 @@ use App\Repository\RestaurateurRepository;
 use App\Entity\Category;
 use Doctrine\DBAL\Types\Types;
 use App\Entity\Order;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap(['supplier' => Supplier::class, 'restaurateur' => Restaurateur::class])]
-abstract class User
+abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -131,6 +135,19 @@ abstract class User
         $this->premium = $premium;
 
         return $this;
+    }
+
+
+
+    public function eraseCredentials() : void
+    {
+        // Effacez les données sensibles ici, si nécessaire
+    }
+
+    public function getUserIdentifier() : string
+    {
+        // Retournez ici l'identifiant unique de l'utilisateur, par exemple son email
+        return $this->email;
     }
 }
 
