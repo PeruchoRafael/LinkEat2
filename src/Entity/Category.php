@@ -12,16 +12,16 @@ class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Supplier::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Supplier::class, cascade: ['persist', 'remove'])]
     private Collection $suppliers;
 
     public function __construct()
@@ -39,7 +39,7 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -51,7 +51,7 @@ class Category
         return $this->image;
     }
 
-    public function setImage(string $image): static
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
@@ -66,17 +66,17 @@ class Category
         return $this->suppliers;
     }
 
-    public function addSupplier(Supplier $supplier): static
+    public function addSupplier(Supplier $supplier): self
     {
         if (!$this->suppliers->contains($supplier)) {
-            $this->suppliers->add($supplier);
+            $this->suppliers[] = $supplier;
             $supplier->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeSupplier(Supplier $supplier): static
+    public function removeSupplier(Supplier $supplier): self
     {
         if ($this->suppliers->removeElement($supplier)) {
             // set the owning side to null (unless already changed)

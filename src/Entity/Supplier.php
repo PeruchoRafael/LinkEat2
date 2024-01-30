@@ -38,7 +38,7 @@ class Supplier extends User
     private Collection $orders;
 
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
-    private ?category $category = null;
+    private ?Category $category = null;
 
     public function __construct()
     {

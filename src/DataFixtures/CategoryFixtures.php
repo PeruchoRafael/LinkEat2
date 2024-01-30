@@ -6,29 +6,20 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Category;
 
-
 class CategoryFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         $categories = [
-        
-        ['name' => 'Poisson',
-        'image' => 'poisson.jpg'
-        ],
-
-        ['name' => 'Viande',
-        'image' => 'viande.jpg'
-        ],
-
-        ['name' => 'Fruits',
-        'image' => 'fruit.jpg'
-        ],
-
-        ['name' => 'Légumes',
-        'image' => 'légume.jpg'
-        ],
-
+            // Catégories de fournisseurs
+            ['name' => 'Viande', 'image' => 'viande.jpg'],
+            ['name' => 'Poisson', 'image' => 'poisson.jpg'],
+            ['name' => 'Légumes', 'image' => 'legumes.jpg'],
+            ['name' => 'Fruits', 'image' => 'fruits.jpg'],
+            ['name' => 'Noix', 'image' => 'noix.jpg'],
+            ['name' => 'Produits laitiers', 'image' => 'produits_laitiers.jpg'],
+            ['name' => 'Boulangerie et pâtisserie', 'image' => 'boulangerie.jpg'],
+            ['name' => 'Boissons', 'image' => 'boissons.jpg'],
         ];
 
         foreach ($categories as $categoryData) {
@@ -39,8 +30,6 @@ class CategoryFixtures extends Fixture
 
             $this->addReference($categoryData['name'], $category);
         }
-
-        
 
         $manager->flush();
     }

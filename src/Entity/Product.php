@@ -31,6 +31,12 @@ class Product
     #[ORM\OneToMany(targetEntity: Orderline::class, mappedBy: 'product')]
     private Collection $orderlines;
 
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
+    private ?Category $category;
+
+    #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'products')]
+    private ?Supplier $supplier;
+
     public function __construct()
     {
         $this->orderlines = new ArrayCollection();
@@ -46,7 +52,7 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -58,7 +64,7 @@ class Product
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -70,7 +76,7 @@ class Product
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 
@@ -82,7 +88,7 @@ class Product
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): static
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
 
@@ -97,7 +103,7 @@ class Product
         return $this->orderlines;
     }
 
-    public function addOrderline(Orderline $orderline): static
+    public function addOrderline(Orderline $orderline): self
     {
         if (!$this->orderlines->contains($orderline)) {
             $this->orderlines->add($orderline);
@@ -107,18 +113,39 @@ class Product
         return $this;
     }
 
-    public function removeOrderline(Orderline $orderline, Product $product): static
-{
-    if ($this->orderlines->removeElement($orderline)) {
-        // Check if the orderline has a product before setting it to null
-        if ($orderline->getProduct() === $this) {
-            $orderline->setProduct($product);
+    public function removeOrderline(Orderline $orderline, Product $product): self
+    {
+        if ($this->orderlines->removeElement($orderline)) {
+            // set the owning side to null (unless already changed)
+            if ($orderline->getProduct() === $this) {
+                $orderline->setProduct($product);
+            }
         }
+
+        return $this;
     }
 
-    return $this;
-}
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
 
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
-    
+        return $this;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Supplier $supplier): self
+    {
+        $this->supplier = $supplier;
+
+        return $this;
+    }
 }
