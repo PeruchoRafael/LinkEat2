@@ -3,13 +3,24 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Supplier;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Supplier;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class SupplierFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
+
     public function load(ObjectManager $manager): void
     {
     $suppliers= [
@@ -258,33 +269,45 @@ class SupplierFixtures extends Fixture implements DependentFixtureInterface
 
 
 
-        foreach ($suppliers as $supplierData) {
-            $supplier = new Supplier();
-            $supplier->setCompanyName($supplierData['companyName']);
-            $supplier->setSiretNumber($supplierData['siretNumber']);
-            $supplier->setPostalAddress($supplierData['postalAddress']);
-            $supplier->setCountry($supplierData['country']);
-            $supplier->setCity($supplierData['city']);
-            $supplier->setAddress($supplierData['address']);
-            $supplier->setDescription($supplierData['location']);
-            $supplier->setEmail($supplierData['email']);
-            $supplier->setPassword($supplierData['password']);
-            $supplier->setName($supplierData['name']);
-            $supplier->setFirstName($supplierData['firstName']);
-            $supplier->setPremium($supplierData['premium']);
-            
+    foreach ($suppliers as $supplierData) {
+        $supplier = new Supplier();
+        $supplier->setCompanyName($supplierData['companyName']);
+        $supplier->setSiretNumber($supplierData['siretNumber']);
+        $supplier->setPostalAddress($supplierData['postalAddress']);
+        $supplier->setCountry($supplierData['country']);
+        $supplier->setCity($supplierData['city']);
+        $supplier->setAddress($supplierData['address']);
+        $supplier->setDescription($supplierData['location']);
+        $supplier->setEmail($supplierData['email']);
+        $supplier->setPassword($supplierData['password']);
+        $supplier->setName($supplierData['name']);
+        $supplier->setFirstName($supplierData['firstName']);
+        $supplier->setPremium($supplierData['premium']);
 
-            $manager->persist($supplier);
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $supplier,
+            $supplierData['password']
+        );
+        $supplier->setPassword($hashedPassword);
 
-            $this->addReference($supplierData['companyName'], $supplier);
+        // Associer le fournisseur à une catégorie existante
+        $category = $this->getReference($supplierData['category']);
+        if ($category instanceof Category) {
+            $supplier->setCategory($category);
         }
-        $manager->flush();
+
+        $this->addReference($supplierData['companyName'], $supplier);
+
+        $manager->persist($supplier);
     }
 
-    public function getDependencies(): array
-    {
-        return [
-            CategoryFixtures::class, 
-        ];
-    }
+    $manager->flush();
+}
+
+public function getDependencies(): array
+{
+    return [
+        CategoryFixtures::class,
+    ];
+}
 }

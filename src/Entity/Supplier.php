@@ -42,6 +42,7 @@ class Supplier extends User
 
     public function __construct()
     {
+        parent::__construct(); // Ajoutez cette ligne pour appeler le constructeur de User
         $this->orders = new ArrayCollection();
     }
 

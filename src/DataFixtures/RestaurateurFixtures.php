@@ -1,13 +1,22 @@
 <?php
 
+
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Restaurateur;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RestaurateurFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $restaurateurs = [
@@ -155,17 +164,23 @@ class RestaurateurFixtures extends Fixture
             $restaurateur->setPhone($restauData['phone']);
             $restaurateur->setLocation($restauData['location']);
             $restaurateur->setEmail($restauData['email']);
-            $restaurateur->setPassword($restauData['password']);
+
+            // Hacher le mot de passe avant de le définir
+            $hashedPassword = $this->passwordHasher->hashPassword(
+                $restaurateur,
+                $restauData['password']
+            );
+            $restaurateur->setPassword($hashedPassword);
+
             $restaurateur->setName($restauData['name']);
             $restaurateur->setFirstName($restauData['firstName']);
             $restaurateur->setPremium($restauData['premium']);
-            
 
             $manager->persist($restaurateur);
-
             $this->addReference($restauData['email'], $restaurateur);
         }
 
         $manager->flush();
     }
 }
+

@@ -17,32 +17,36 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             [
                 'orderDate' => new \DateTimeImmutable('now'),
                 'email' => 'amandine.toulouse@gmail.com',
-                'supplier' =>'Orchidée Fruitées',
+                'supplier' => 'Orchidées Fruitées',
             ],
             [
                 'orderDate' => new \DateTimeImmutable('now'),
-                'supplier' => 'Brasserie du Nord',
-                'email' => 'bruno.caen@outlook.com',
-                
-            ],
-            [
-                'orderDate' => new \DateTimeImmutable('now'),
-                'supplier' => 'Poissonnerie Maree',
                 'email' => 'clara.montpellier@outlook.com',
+                'supplier' => 'Poissonnerie Maree',
+            ],
+            [
+                'orderDate' => new \DateTimeImmutable('now'),
+                'email' => 'bruno.caen@outlook.com',
+                'supplier' => 'Boucherie Dupont',
             ],
         ];
 
-        foreach ($orders as $orderData) {
+        foreach ($orders as $key => $orderData) {
             $order = new Order();
             $order->setOrderDate($orderData['orderDate']);
 
+            // Récupérer la référence du restaurateur en utilisant l'email
             $restaurateurReference = $this->getReference($orderData['email']);
             $order->setRestaurateur($restaurateurReference);
 
-            $supplierReference = $this->getReference($orderData['email']);            
-            $order->setSupplier($supplierReference['supplier']);
+            // Récupérer la référence du fournisseur en utilisant le nom de l'entreprise
+            $supplierReference = $this->getReference($orderData['supplier']);
+            $order->setSupplier($supplierReference);
 
             $manager->persist($order);
+
+            // Ajouter une référence à chaque commande créée
+            $this->addReference('order_' . $key, $order);
         }
 
         $manager->flush();

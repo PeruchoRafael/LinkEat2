@@ -9,7 +9,6 @@ use App\Entity\Product;
 use App\Entity\Order;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-
 class OrderlineFixtures extends Fixture implements DependentFixtureInterface 
 {
     public function load(ObjectManager $manager): void
@@ -17,87 +16,36 @@ class OrderlineFixtures extends Fixture implements DependentFixtureInterface
         $orderlines = [
             [
                 'quantity' => 2,
-                'order' => 1, 
-                'product' => 'Fruits de la Passion', 
+                'order' => 'order_0', // Reference à une commande spécifique
+                'product' => 'Fruit de la Passion', // Nom du produit
             ],
             [
                 'quantity' => 3,
-                'order' => 1,
-                'product' => 'Sole',
+                'order' => 'order_0', // Reference à la même commande que ci-dessus
+                'product' => 'Sole', // Nom du produit
             ],
             [
                 'quantity' => 1,
-                'orderId' => 1,
-                'product' => 'Côtelette d\'agneau',
-            ],
-            [
-                'quantity' => 4,
-                'order' => 1,
-                'product' => 'Pain au chocolat',
-            ],
-            [
-                'quantity' => 10,
-                'order' => 1,
-                'product' => 'Tomates cerises',
-            ],
-    
-            [
-                'quantity' => 5,
-                'order' => 2, 
-                'product' => 'Mozzarella di Bufala', 
-            ],
-            [
-                'quantity' => 25,
-                'order' => 2,
-                'product' => 'Tomates Cerises',
-            ],
-            [
-                'quantity' => 12,
-                'orderId' => 2,
-                'product' => 'Cerneaux de Noix',
-            ],
-            [
-                'quantity' => 4,
-                'order' => 2,
-                'product' => 'Bière ambrée',
-            ],
-            [
-                'quantity' => 10,
-                'order' => 2,
-                'product' => 'Carottes bio',
-            ],
-    
-            [
-                'quantity' => 5,
-                'orderId' => 3,
-                'product' => 'Cerneau de Noix',
-            ],
-            [
-                'quantity' => 5,
-                'order' => 3,
-                'product' => 'Saumon frais',
-            ],
-            [
-                'quantity' => 3,
-                'order' => 3,
-                'product' => 'Poulet rôti',
+                'order' => 'order_1', // Reference à une autre commande
+                'product' => 'Côtelettes d\'agneau', // Nom du produit
             ],
         ];
-        
 
         foreach ($orderlines as $orderlineData) {
             $orderline = new Orderline();
             $orderline->setQuantity($orderlineData['quantity']);
-        
+
+            // Récupérer la référence de la commande
             $orderReference = $this->getReference($orderlineData['order']);
             $orderline->setOrder($orderReference);
-        
-            $productReference = $this->getReference($orderlineData['companyName']);
+
+            // Récupérer la référence du produit
+            $productReference = $this->getReference($orderlineData['product']);
             $orderline->setProduct($productReference);
-        
+
             $manager->persist($orderline);
         }
-        
+
         $manager->flush();
     }
 
@@ -108,5 +56,4 @@ class OrderlineFixtures extends Fixture implements DependentFixtureInterface
             OrderFixtures::class,
         ];
     }
-
 }
