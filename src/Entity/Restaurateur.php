@@ -21,9 +21,10 @@ class Restaurateur extends User
     private Collection $orders;
 
     public function __construct()
-    {
-        $this->orders = new ArrayCollection();
-    }
+{
+    parent::__construct(); // Ajoutez cette ligne pour appeler le constructeur de User
+    $this->orders = new ArrayCollection();
+}
     
     public function getPhone(): ?int
     {

@@ -25,9 +25,6 @@ class Order
     #[ORM\ManyToOne(targetEntity: Restaurateur::class, inversedBy: 'orders')]
     private ?Restaurateur $restaurateur = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
-
     #[ORM\OneToMany(targetEntity: Orderline::class, mappedBy: 'order', cascade: ['persist', 'remove'])]
     private Collection $orderlines;
 
@@ -76,19 +73,7 @@ class Order
 
         return $this;
     }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, Orderline>
      */
