@@ -3,19 +3,24 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <h1 class="text-red-400 text-3xl"> Travaillez bande d'esclaves </h1>
 
-    {% if categories is not empty %}
-        {% for category in categories %}
-            <h1>{{ category.name }} </h1>
-            <div class="w-[40px] h-[40px]">
-                <img src="{{ category.image }}" alt="Image illustrant la catégorie" />
-            </div>
-            <br>
-        {% endfor %}
-    {% else %}
-        <p>Aucune catégorie trouvée</p>
-    {% endif %}
+    <div class="items-center pt-[120px] flex flex-col md:h-[90.6vh] bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/test-bg.jpg') }}');">
 
-    <a href="{{ path('app_login') }}">Marie Geoise</a>
+    
+        <h1 class="text-[45px] ">
+        Le site de mise en relation entre
+        <span class="text-blue-500">restaurateur</span>
+        et
+        <span class="text-blue-500">fournisseur</span>
+        </h1>
+
+
+        <p class="" style="padding-top: 12px; padding-bottom: 12px; font-size:18px;">Dynamisez votre restaurant ou bien trouvez une nouvelle clientèle grâce à une plateforme qui facilite l'accès aux clients de qualité.</p>
+
+        <a href="{{ path('app_sign_up') }}" role="button" class="inline-block text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-[50px]" style="border-radius:15px; width:110px; margin-top: 50px;">Get started</a>
+
+        
+    </div>
+
+    
 {% endblock %}
