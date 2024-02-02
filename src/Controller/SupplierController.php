@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SupplierController extends AbstractController
 {
-    #[Route('/supplier', name: 'Supplier')]
+    #[Route('/supplier', name: 'app_form_supplier')]
     public function newSupplier(Request $request, EntityManagerInterface $manager): Response
     {
         $supplier = new Supplier();

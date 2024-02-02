@@ -12,7 +12,7 @@ use App\Form\RestaurateurType;
 
 class RestaurateurController extends AbstractController
 {
-    #[Route('/inscription/restaurateur', name: 'app_form_restaurateur')]
+    #[Route('/restaurateur/inscription', name: 'app_form_restaurateur')]
     public function index(Request $request, EntityManagerInterface $manager): Response
     {
 
@@ -34,4 +34,13 @@ class RestaurateurController extends AbstractController
         ]);
         
     }
+
+    #[Route('/restaurateur/home', name: 'home_restaurateur')]
+    public function homeRestaurateur(): Response
+    {
+        return $this->render('home_restaurateur/index.html.twig', [
+            'controller_name' => 'HomeRestaurateurController',
+        ]);
+    }
+
 }
