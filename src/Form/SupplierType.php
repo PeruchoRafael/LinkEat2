@@ -5,12 +5,15 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Supplier;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -85,7 +88,7 @@ class SupplierType extends AbstractType
                         'message' => 'Veuillez saisir le nom de votre agence'
                     ]),
                     new Length([
-                        'min' => 5,
+                        'min' => 3,
                         'minMessage' => 'Le nom de votre agence doit contenir au minimum {{ limit }} caractères'
                     ]),
                 ]
@@ -105,7 +108,7 @@ class SupplierType extends AbstractType
                 ]
              ])
 
-            ->add('siretNumber', TextType::class, [
+            ->add('siretNumber', TelType::class, [
                 'required' => true,
                 'label' => "Numéro de SIRET",
                 'constraints' => [
@@ -119,7 +122,7 @@ class SupplierType extends AbstractType
                 ]
              ])
 
-            ->add('postalAddress', TextType::class, [
+            ->add('postalAddress', TelType::class, [
                 'required' => true,
                 'label' => "Nom de votre adresse postale",
                 'constraints' => [
@@ -133,7 +136,7 @@ class SupplierType extends AbstractType
                 ]
              ])
 
-            ->add('country', TextType::class, [
+            ->add('country', CountryType::class, [
                 'required' => true,
                 'label' => "Nom de votre pays",
                 'constraints' => [
@@ -177,9 +180,11 @@ class SupplierType extends AbstractType
 
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
-            ->add('save', SubmitType::class)
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer',
+            ])
         ;
     }
 
