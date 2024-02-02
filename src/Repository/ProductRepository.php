@@ -21,6 +21,15 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    public function findBySupplier($supplier)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.supplier = :supplier')
+        ->setParameter('supplier', $supplier)
+        ->getQuery()
+        ->getResult();
+}
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

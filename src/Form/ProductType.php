@@ -4,7 +4,8 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Product;
-use App\Entity\Supplier;
+// Use statements for the form types you're going to use
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,13 +26,9 @@ class ProductType extends AbstractType
                     return $category->getName(); // Ici on assume que l'entité Category a un champ `name`
                 },
                 'placeholder' => 'Choose a category', // Optionnel : ajoute un choix vide
-            ])
-            ->add('supplier', EntityType::class, [
-                'class' => Supplier::class,
-                'choice_label' => function(Supplier $supplier) {
-                    return $supplier->getName(); // Ici on assume que l'entité Supplier a un champ `name`
-                },
-                'placeholder' => 'Choose a supplier', // Optionnel : ajoute un choix vide
+            ]) // Il manquait cette fermeture de parenthèse
+            ->add('submit', SubmitType::class, [ // Ajout du bouton de soumission
+                'label' => 'Envoyer',
             ]);
     }
 

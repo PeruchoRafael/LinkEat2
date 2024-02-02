@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des produits : {{ product.name }}{% endblock %}
+
+{% block body %}
+    <h1>Modification du produit "{{ product.name }}"</h1>
+
+    {{ form_start(form) }}
+        <div class="label">
+            {{ form_label(form.name) }}
+        </div>
+   {{ form_errors(form.name) }}
+
+        <div class="widget">
+            {{ form_widget(form.name) }}
+        </div>
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_home') }}">Retour à la liste</a>
+{% endblock %}

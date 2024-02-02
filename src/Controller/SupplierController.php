@@ -9,15 +9,16 @@ use App\Entity\Supplier;
 use App\Form\SupplierType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Form\ProductType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as ExceptionNotFoundHttpException;
+use App\Repository\ProductRepository;
 
 class SupplierController extends AbstractController
 {
-    #[Route('/supplier', name: 'app_form_supplier')]
+    #[Route('/fournisseur/inscription', name: 'app_form_supplier')]
     public function newSupplier(Request $request, EntityManagerInterface $manager): Response
     {
         $supplier = new Supplier();
@@ -33,7 +34,7 @@ class SupplierController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('supplier/index.html.twig', [
+        return $this->render('supplier/new.html.twig', [
             'formSupplier' => $form->createView()
    ]);
     }
@@ -45,6 +46,26 @@ class SupplierController extends AbstractController
             'controller_name' => 'HomeSupplierController',
         ]);
     }
+
+    #[Route('/product/list', name: 'app_products')]
+public function produit(ProductRepository $productRepository, Security $security): Response
+{
+    // Obtenez l'utilisateur connecté
+    $supplier = $security->getUser();
+
+    // Assurez-vous que l'utilisateur est un fournisseur
+    if (!$supplier || !($supplier instanceof Supplier)) {
+        throw new \Exception("Accès refusé");
+    }
+
+    // Utilisez le repository pour trouver les produits liés au fournisseur connecté
+    $products = $productRepository->findBySupplier($supplier);
+
+    return $this->render('supplier/product/index.html.twig', [
+        'controller_name' => 'HomeSupplierController',
+        'products' => $products
+    ]);
+}
 
     #[Route(path: '/product-edit/{id}', name: 'product_edit')]
     public function productEdit(EntityManagerInterface $manager,ManagerRegistry $managerRegistry,Request $request, string $id): Response
@@ -62,17 +83,17 @@ class SupplierController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $manager->flush();
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_home_supplier');
         }
 
-        return $this->render('home/edit_products.html.twig', [
+        return $this->render('supplier/product/edit.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
         ]);
     }
 
     #[Route('/product/new', name: 'product_new')]
-    public function new(Request $request, Security $security, EntityManager $manager): Response
+    public function new(Request $request, Security $security, EntityManagerInterface $manager): Response
     {
         $product = new Product();
         
@@ -96,10 +117,10 @@ class SupplierController extends AbstractController
             $manager->flush();
 
             // Rediriger vers une route appropriée après l'ajout
-            return $this->redirectToRoute('product_success');
+            return $this->redirectToRoute('app_home_supplier');
         }
 
-        return $this->render('product/new.html.twig', [
+        return $this->render('supplier/product/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -125,7 +146,7 @@ public function delete(EntityManagerInterface $manager, string $id): Response
 
     $this->addFlash('success', 'Le produit a été supprimé avec succès.');
 
-    return $this->redirectToRoute('app_home');
+    return $this->redirectToRoute('app_home_supplier');
 }
 
 }
