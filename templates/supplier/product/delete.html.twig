@@ -1,0 +1,4 @@
+{{ form_start(confirmationForm) }}
+    <p>Êtes-vous sûr de vouloir supprimer le produit "{{ product.name }}" ?</p>
+    {{ form_widget(confirmationForm.confirm) }}
+{{ form_end(confirmationForm) }}

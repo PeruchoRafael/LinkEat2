@@ -15,6 +15,8 @@ use App\Form\ProductType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as ExceptionNotFoundHttpException;
 use App\Repository\ProductRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class SupplierController extends AbstractController
 {
@@ -83,7 +85,7 @@ public function produit(ProductRepository $productRepository, Security $security
         if ($form->isSubmitted() && $form->isValid()) {
             
             $manager->flush();
-            return $this->redirectToRoute('app_home_supplier');
+            return $this->redirectToRoute('app_products');
         }
 
         return $this->render('supplier/product/edit.html.twig', [
@@ -125,28 +127,41 @@ public function produit(ProductRepository $productRepository, Security $security
         ]);
     }
 
-    #[Route(path: '/product-delete/{id}', name: 'product_delete')]
-public function delete(EntityManagerInterface $manager, string $id): Response
-{
-    $product = $manager->getRepository(Product::class)->find($id);
-
-    // Si le produit est null (donc non trouvé en BDD, alors on génère une 404).
-    if (null === $product) {
-        throw new ExceptionNotFoundHttpException();
+    private function createDeleteConfirmationForm(): \Symfony\Component\Form\FormInterface
+    {
+        return $this->createFormBuilder()
+            ->add('confirm', SubmitType::class, ['label' => 'Confirmer la suppression'])
+            ->getForm();
     }
 
-    // Ajoutez ici votre logique de confirmation, si nécessaire
+   
+    #[Route('/product-delete/{id}', name: 'product_delete', methods: ['GET', 'POST'])]
+    public function delete(Request $request, EntityManagerInterface $manager, string $id): Response
+    {
+        $product = $manager->getRepository(Product::class)->find($id);
+    
+        if (null === $product) {
+            throw $this->createNotFoundException('Le produit n\'a pas été trouvé.');
+        }
+    
+        $form = $this->createDeleteConfirmationForm();
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->remove($product);
+            $manager->flush();
+    
+            $this->addFlash('success', 'Le produit a été supprimé avec succès.');
+    
+            return $this->redirectToRoute('app_home_supplier');
+        }
+    
+        // Afficher la vue de confirmation si le formulaire n'a pas été soumis/validé
+        return $this->render('supplier/product/delete.html.twig', [
+            'product' => $product,
+            'confirmationForm' => $form->createView(),
+        ]);
 
-    // Si la confirmation est reçue (par exemple, via un formulaire de confirmation)
-    // vous pouvez ajouter une vérification ici
-
-    // Supprimez le produit
-    $manager->remove($product);
-    $manager->flush();
-
-    $this->addFlash('success', 'Le produit a été supprimé avec succès.');
-
-    return $this->redirectToRoute('app_home_supplier');
 }
 
 }
