@@ -4,14 +4,56 @@
 {% block title %}Ajout d'un restaurateur {% endblock %}
 
 {% block body %}
-    <h1>Ajouter un restaurateur</h1>
-    {{ form(formRestaurateur) }}
+    <div class="max-w-2xl mx-auto mt-8 bg-white p-8 border rounded-md">
+        <h1 class="text-2xl font-bold mb-6"></h1>
+
+        <div style="overflow-x: hidden;">
+            {{ form_start(formRestaurateur) }}
+
+            <div class="flex flex-wrap -mx-2 mb-2">
+                <div class="w-full md:w-1/2 px-4 mb-4">
+                    {{ form_label(formRestaurateur.name, 'Nom', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                    {{ form_widget(formRestaurateur.name, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'}}) }}
+                </div>
+
+                <div class="w-full md:w-1/2 px-4 mb-4">
+                    {{ form_label(formRestaurateur.first_name, 'Prénom', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                    {{ form_widget(formRestaurateur.first_name, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'}}) }}
+                </div>
+            </div>
+
+            <div class="flex flex-wrap -mx-2 mb-2">
+                <div class="w-full md:w-1/2 px-4 mb-4">
+                    {{ form_label(formRestaurateur.email, 'Saississez votre adresse e-mail', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                    {{ form_widget(formRestaurateur.email, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'}}) }}
+                </div>
+
+                <div class="w-full md:w-1/2 px-4 mb-4">
+                    {{ form_label(formRestaurateur.password, 'Saisissez votre Mot de passe', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                    {{ form_widget(formRestaurateur.password, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'}}) }}
+                </div>
+
+            </div>
+            <div class="flex flex-wrap -mx-2 mb-2">
+                <div class="w-full md:w-1/2 px-4 mb-4">
+                        {{ form_label(formRestaurateur.location, 'Adresse', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                        {{ form_widget(formRestaurateur.location, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'}}) }}
+                </div>
+                <div class="w-full md:w-1/2 px-4 mb-4">
+                        {{ form_label(formRestaurateur.phone, 'Numéro de téléphone', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                        {{ form_widget(formRestaurateur.phone, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'}}) }}
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                {{ form_widget(formRestaurateur.submit, {'attr': {'class': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}}) }}
+            </div>
+
+            {% for message in app.flashes('success') %}
+                <p class="mt-4 text-green-500">{{ message }}</p>
+            {% endfor %}
+
 
     <br>
-    <br>
-    <br>
-    <a href="{{ path('app_home') }}">Retour à la page d'accueil</a>
-    <br> 
-    <br>
-
+    {{ form_end(formRestaurateur) }}
 {% endblock %}

@@ -13,6 +13,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+
 
 class RestaurateurType extends AbstractType
 {
@@ -20,34 +24,87 @@ class RestaurateurType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de votre restaurant',
+                'label' => 'Nom',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un nom valide'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => "Le nom doit contenir au minimum {{ limit }} caractères"
+                    ]),
+                ]
             ])
+
+            ->add('first_name', TextType::class, [
+                'label' => 'Prénom',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un prénom'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => "Le nom doit contenir au minimum {{ limit }} caractères"
+                    ]),
+                ]
+            ])
+
             ->add('email', TextType::class, [
                 'label' => 'Saisissez votre adresse mail',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir une adresse mail valide'
+                    ]),
+                    new Length([
+                        'min' => 5,
+                        'minMessage' => "L'email doit contenir au minimum {{ limit }} caractères"
+                    ]),
+                ]
+
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Saisissez votre Mot de passe',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un mot de passe'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le mot de passe doit contenir au minimum {{ limit }} caractères'
+                    ]),
+                ]
             ])
-            ->add('premium', ChoiceType::class, [
-                'label' => 'Premium',
-                'required' => true,
-                'choices' => [
-                    'Oui' => true,
-                    'Non' => false,
-                ],
-                'expanded' => true, // Affiche les choix comme des cases à cocher
-                'multiple' => false, // Permet à l'utilisateur de cocher une seule option
-            ])
+
             ->add('phone', IntegerType::class, [ // Utilisez IntegerType pour les numéros de téléphone
                 'label' => 'Numéro de téléphone',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un numero de téléphone'
+                    ]),
+                    new Length([
+                        'min' => 5,
+                        'minMessage' => 'Le numéro de téléphone doit contenir au minimum {{ limit }} caractères'
+                    ]),
+                ]
             ])
+
             ->add('location', TextareaType::class, [ // Utilisez TextareaType au lieu de TextAreaType
                 'label' => 'Adresse',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir votre adresse'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => "Votre adresse doit contenir au minimum {{ limit }} caractères"
+                    ]),
+                ]
             ])
 
             ->add('submit', SubmitType::class, [
@@ -56,7 +113,6 @@ class RestaurateurType extends AbstractType
 
         }
     
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
