@@ -4,44 +4,48 @@
 
 {% block body %}
 
-    <h1>Liste des produits</h1>
+    <div class="container mx-auto my-12">
+        <h1 class="text-4xl font-extrabold mb-8 text-center">Liste des Produits</h1>
 
-    <table class="table">
-        <thead class="table-dark">
-            <tr>
-                <th>Nom</th>
-                <th>Descripton</th>
-                <th>Price</th>
-            </tr>
-        </thead>
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto">
+                <thead class="bg-blue-700 text-white">
+                    <tr>
+                        <th class="py-2 px-4">Nom</th>
+                        <th class="py-2 px-4">Description</th>
+                        <th class="py-2 px-4">Prix</th>
+                        <th class="py-2 px-4">Quantité</th>
+                        <th class="py-2 px-4">Catégorie</th>
+                        <th class="py-2 px-4">Actions</th>
+                    </tr>
+                </thead>
 
-    {% for product in products %}
+                <tbody class="text-gray-700">
+                    {% for product in products %}
+                        <tr>
+                            <td class="py-2 px-4">{{ product.name }}</td>
+                            <td class="py-2 px-4">{{ product.description }}</td>
+                            <td class="py-2 px-4">{{ product.price }} €</td>
+                            <td class="py-2 px-4">{{ product.quantity }}</td>
+                            <td class="py-2 px-4">{{ product.category.name }}</td>
+                            <td class="py-2 px-4">
+                                <a href="{{ path('product_edit', {'id': product.id}) }}" class="text-blue-500 hover:underline">Modifier</a>
+                                <span class="mx-1">|</span>
+                                <a href="{{ path('product_delete', {'id': product.id}) }}" class="text-red-500 hover:underline">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td class="py-2 px-4" colspan="6">Aucun produit trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <tr>
-    <td>{{ product.name }} </td>
-    <td>{{ product.description }}</td>
-    <td>{{ product.price }}</td>
-    <td>{{ product.quantity }}</td>
-    <td>{{ product.category.name }}</td>
+        <div class="mt-8">
+            <a href="{{ path('product_new') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter un produit</a>
+        </div>
+    </div>
 
-
-     <td><a href="{{ path('product_edit', {
-                        id: product.id
-                    }) }}">Modifier</a></td>
-    <td><a href="{{ path('product_delete',{
-        id: product.id
-    })
-    }} ">Supprimer</a></td>     
-
-
-    {% else %}
-    <tr>
-        <td colspan="2" Aucun Produits</td>
-    </tr>
-    {% endfor %}
-
-    </tbody>
-    </table>
-
-    <a href="{{ path('product_new') }}">Ajouter un produit</a>
 {% endblock %}

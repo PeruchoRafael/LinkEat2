@@ -3,19 +3,49 @@
 {% block title %}Administration des produits : {{ product.name }}{% endblock %}
 
 {% block body %}
-    <h1>Modification du produit "{{ product.name }}"</h1>
+    <div class="bg-gray-100 min-h-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded-md shadow-md max-w-md w-full">
+            <h1 class="text-4xl font-extrabold mb-6 text-blue-500">Modification du produit "{{ product.name }}"</h1>
 
-    {{ form_start(form) }}
-        <div class="label">
-            {{ form_label(form.name) }}
+            {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+
+            <div>
+                <label for="{{ form.name.vars.id }}" class="block text-sm font-medium text-gray-700">Nom du produit</label>
+                {{ form_row(form.name, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                {{ form_errors(form.name) }}
+            </div>
+
+            <div>
+                <label for="{{ form.description.vars.id }}" class="block text-sm font-medium text-gray-700">Description</label>
+                {{ form_row(form.description, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <div>
+                <label for="{{ form.price.vars.id }}" class="block text-sm font-medium text-gray-700">Prix</label>
+                {{ form_row(form.price, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                {{ form_errors(form.price) }}
+            </div>
+
+            <div>
+                <label for="{{ form.quantity.vars.id }}" class="block text-sm font-medium text-gray-700">Quantité</label>
+                {{ form_row(form.quantity, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                {{ form_errors(form.quantity) }}
+            </div>
+
+            <div>
+                <label for="{{ form.category.vars.id }}" class="block text-sm font-medium text-gray-700">Catégorie</label>
+                {{ form_row(form.category, {'attr': {'class': 'form-select mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                {{ form_errors(form.category) }}
+            </div>
+
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:shadow-outline-blue active:bg-blue-800 transition duration-300 ease-in-out transform hover:scale-105">
+                Enregistrer les modifications
+            </button>
+
+            {{ form_end(form) }}
+
+            <a href="{{ path('app_home') }}" class="text-gray-500 hover:underline block mt-4">Retour à la liste</a>
         </div>
-   {{ form_errors(form.name) }}
-
-        <div class="widget">
-            {{ form_widget(form.name) }}
-        </div>
-
-    {{ form_end(form) }}
-
-    <a href="{{ path('app_home') }}">Retour à la liste</a>
+    </div>
 {% endblock %}
