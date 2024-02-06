@@ -17,9 +17,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as ExceptionNot
 use App\Repository\ProductRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SupplierController extends AbstractController
 {
+
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     #[Route('/fournisseur/inscription', name: 'app_form_supplier')]
     public function newSupplier(Request $request, EntityManagerInterface $manager): Response
     {
@@ -31,6 +40,14 @@ class SupplierController extends AbstractController
 
             if ( $form->isValid()) {
                 try {
+
+                    // Récupérer le mot de passe en texte brut à partir du formulaire
+                    $plainPassword = $form->get('password')->getData();
+
+                    // Hasher le mot de passe
+                    $hashedPassword = $this->passwordHasher->hashPassword($supplier, $plainPassword);
+                    $supplier->setPassword($hashedPassword);
+
                     $manager->persist($supplier);
     
                     $manager->flush();
