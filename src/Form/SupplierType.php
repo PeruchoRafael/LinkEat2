@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\User;
 use App\Entity\Supplier;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -142,10 +143,6 @@ class SupplierType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un pays'
-                    ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => 'Le nom doit contenir au minimum {{ limit }} caractères'
                     ]),
                 ]
              ])

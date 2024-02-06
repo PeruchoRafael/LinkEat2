@@ -27,13 +27,25 @@ class SupplierController extends AbstractController
         $form = $this->createForm(SupplierType::class, $supplier);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($supplier);
+        if ($form->isSubmitted()) {
 
-            $manager->flush();
+            if ( $form->isValid()) {
+                try {
+                    $manager->persist($supplier);
+    
+                    $manager->flush();
+        
+                    $this->addFlash('success', 'Fournisseur correctement enregistrée !');
+                    return $this->redirectToRoute('app_home');
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Une erreur s\'est produire lors de l\'ajout...');
+                }
+            } else {
+                $this->addFlash('error', 'Erreur sur la saisie, veuillez vérifier votre saisie...');
+            }
 
-            $this->addFlash('success', 'Fournisseur correctement enregistrée !');
-            return $this->redirectToRoute('app_home');
+           
+            
         }
 
         return $this->render('supplier/new.html.twig', [

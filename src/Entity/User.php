@@ -39,7 +39,7 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: 'boolean')]
-    private ?bool $premium = null;
+    private ?bool $premium = false;
 
     public function __construct()
     {
