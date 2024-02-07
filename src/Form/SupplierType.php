@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,21 +28,17 @@ class SupplierType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => "Veuillez saisir votre adresse mail",
+                'label' => "Adresse email",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une adresse mail valide'
-                    ]),
-                    new Length([
-                        'min' => 5,
-                        'minMessage' => "L'email doit contenir au minimum {{ limit }} caractères"
                     ]),
                 ]
             ])
 
             ->add('password', PasswordType::class, [
                 'required' => true,
-                'label' => "Veuillez saisir votre mot de passe",
+                'label' => "Mot de passe",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un mot de passe'
@@ -53,9 +50,27 @@ class SupplierType extends AbstractType
                 ]
             ])
 
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent correspondre.',
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'attr' => ['class' => 'form-control mb-3'],
+                ],
+                'second_options' => [
+                    'label' => 'Confirmez le mot de passe',
+                    'attr' => ['class' => 'form-control mb-3']
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['min' => 6]),
+                ],
+            ])
+
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => "Votre prénom",
+                'label' => "Prénom",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un prénom'
@@ -69,7 +84,7 @@ class SupplierType extends AbstractType
 
             ->add('firstName', TextType::class, [
                 'required' => true,
-                'label' => "Votre nom de famille",
+                'label' => "Nom de famille",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un nom'
@@ -83,7 +98,7 @@ class SupplierType extends AbstractType
 
             ->add('companyName', TextType::class, [
                 'required' => true,
-                'label' => "Nom de votre agence",
+                'label' => "Nom de l\'agence",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir le nom de votre agence'
@@ -97,7 +112,7 @@ class SupplierType extends AbstractType
 
             ->add('description', TextareaType::class, [
                 'required' => true,
-                'label' => "Votre description personnel",
+                'label' => "Description personnelle",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une description'
@@ -125,7 +140,7 @@ class SupplierType extends AbstractType
 
             ->add('postalAddress', TelType::class, [
                 'required' => true,
-                'label' => "Nom de votre adresse postale",
+                'label' => "Adresse postale",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir votre adresse postale'
@@ -139,7 +154,7 @@ class SupplierType extends AbstractType
 
             ->add('country', CountryType::class, [
                 'required' => true,
-                'label' => "Nom de votre pays",
+                'label' => "Pays",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un pays'
@@ -149,7 +164,7 @@ class SupplierType extends AbstractType
 
             ->add('city', TextType::class, [
                 'required' => true,
-                'label' => "Nom de votre ville",
+                'label' => "Ville",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une ville'
@@ -178,6 +193,7 @@ class SupplierType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'label' => 'Catégorie'
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',

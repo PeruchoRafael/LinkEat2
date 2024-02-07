@@ -7,43 +7,43 @@
 
 {% block body %}
     <div class="max-w-lg mx-auto mt-8 bg-white p-6 rounded-md shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-blue-800">Nous contacter</h2>
+        <h2 class="text-3xl font-bold mb-6 text-blue-800">Contactez-nous</h2>
         
-        <p class="text-gray-600 mb-8">
-            Pour toute question ou demande d'information, veuillez remplir le formulaire ci-dessous.
+        <p class="text-gray-700 font-semibold mb-8">
+            Nous sommes là pour vous aider. N'hésitez pas à nous contacter pour toute question ou préoccupation.
         </p>
 
-        {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+        {{ form_start(formContact, {'attr': {'class': 'space-y-4'}}) }}
+        
+        <div class="flex flex-col">
+            {{ form_label(formContact.name, 'Nom', {'class': 'text-gray-800 font-semibold mb-2'}) }}
+            {{ form_widget(formContact.name, {'class': 'form-input'}) }}
+        </div>
+
+        <div class="flex flex-col">
+            {{ form_label(formContact.email, 'Email', {'class': 'text-gray-800 font-semibold mb-2'}) }}
+            {{ form_widget(formContact.email, {'class': 'form-input'}) }}
+        </div>
+
+        <div class="flex flex-col">
+            {{ form_label(formContact.subject, 'Sujet', {'class': 'text-gray-800 font-semibold mb-2'}) }}
+            {{ form_widget(formContact.subject, {'class': 'form-input'}) }}
+        </div>
+
+        <div class="flex flex-col">
+            {{ form_label(formContact.message, 'Message', {'class': 'text-gray-800 font-semibold mb-2'}) }}
+            {{ form_widget(formContact.message, {'class': 'form-textarea h-32'}) }}
+        </div>
         
         <div>
-            {{ form_label(form.name, 'Nom', {'class': 'block text-sm font-semibold text-gray-800'}) }}
-            {{ form_widget(form.name, {'class': 'mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'}) }}
+            {{ form_widget(formContact.submit, {'class': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-auto'}) }}
         </div>
 
-        <div>
-            {{ form_label(form.email, 'Email', {'class': 'block text-sm font-semibold text-gray-800'}) }}
-            {{ form_widget(form.email, {'class': 'mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'}) }}
-        </div>
-
-        <div>
-            {{ form_label(form.subject, 'Sujet', {'class': 'block text-sm font-semibold text-gray-800'}) }}
-            {{ form_widget(form.subject, {'class': 'mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'}) }}
-        </div>
-
-        <div>
-            {{ form_label(form.message, 'Message', {'class': 'block text-sm font-semibold text-gray-800'}) }}
-            {{ form_widget(form.message, {'class': 'mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50'}) }}
-        </div>
-        
-        <div>
-            {{ form_widget(form.submit, {'class': 'w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'}) }}
-        </div>
-
-        {{ form_end(form) }}
+        {{ form_end(formContact) }}
     </div>
 
     <div class="mt-8 bg-gradient-to-b from-blue-400 to-blue-600 text-white p-7 rounded-md shadow-md">
-        <h2 class="text-2xl font-bold mb-4">À propos de LinkEat</h2>
+        <h2 class="text-3xl font-bold mb-6">À propos de LinkEat</h2>
         
         <p class="text-gray-200">
             LinkEat est une plateforme en ligne qui met en relation les restaurants et les clients. Nous offrons une expérience de commande pratique et facile pour les utilisateurs et aidons les restaurants à atteindre un plus large public. Avec LinkEat, vous pouvez découvrir de délicieux plats, passer des commandes en ligne et vous faire livrer directement chez vous.
