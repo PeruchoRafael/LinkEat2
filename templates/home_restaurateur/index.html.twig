@@ -44,7 +44,7 @@
                         {{ form_widget(formRestaurateur.phone, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'}}) }}
                 </div>
             </div>
-            
+
             <div class="mt-6 text-center">
                 {{ form_widget(formRestaurateur.submit, {'attr': {'class': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}}) }}
             </div>
@@ -53,7 +53,11 @@
                 <p class="mt-4 text-green-500">{{ message }}</p>
             {% endfor %}
 
+            
+
 
     <br>
     {{ form_end(formRestaurateur) }}
 {% endblock %}
+
+{# si mon user est connecter et qu'il a le role restaurateur et bah il peut avoir acces a la page#}
