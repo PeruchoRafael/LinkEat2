@@ -1,9 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: #f3f4f6; /* Couleur de fond plus douce */
+        }
+    </style>
 {% endblock %}
-
 
 {% block body %}
     <div class="max-w-lg mx-auto mt-8 bg-white p-6 rounded-md shadow-md">
@@ -17,36 +21,54 @@
         
         <div class="flex flex-col">
             {{ form_label(formContact.name, 'Nom', {'class': 'text-gray-800 font-semibold mb-2'}) }}
-            {{ form_widget(formContact.name, {'class': 'form-input'}) }}
+            {{ form_widget(formContact.name, {'class': 'form-input rounded-md shadow-sm'}) }}
         </div>
 
         <div class="flex flex-col">
             {{ form_label(formContact.email, 'Email', {'class': 'text-gray-800 font-semibold mb-2'}) }}
-            {{ form_widget(formContact.email, {'class': 'form-input'}) }}
+            {{ form_widget(formContact.email, {'class': 'form-input rounded-md shadow-sm'}) }}
         </div>
 
         <div class="flex flex-col">
             {{ form_label(formContact.subject, 'Sujet', {'class': 'text-gray-800 font-semibold mb-2'}) }}
-            {{ form_widget(formContact.subject, {'class': 'form-input'}) }}
+            {{ form_widget(formContact.subject, {'class': 'form-input rounded-md shadow-sm'}) }}
         </div>
 
         <div class="flex flex-col">
             {{ form_label(formContact.message, 'Message', {'class': 'text-gray-800 font-semibold mb-2'}) }}
-            {{ form_widget(formContact.message, {'class': 'form-textarea h-32'}) }}
+            {{ form_widget(formContact.message, {'class': 'form-textarea h-32 rounded-md shadow-sm'}) }}
         </div>
         
-        <div>
-            {{ form_widget(formContact.submit, {'class': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-auto'}) }}
+        <div class="flex justify-center"> {# Centrer le bouton #}
+            {{ form_widget(formContact.submit, {'label': 'Envoyer', 'attr': {'class': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}}) }}
         </div>
 
         {{ form_end(formContact) }}
     </div>
 
     <div class="mt-8 bg-gradient-to-b from-blue-400 to-blue-600 text-white p-7 rounded-md shadow-md">
-        <h2 class="text-3xl font-bold mb-6">À propos de LinkEat</h2>
-        
-        <p class="text-gray-200">
-            LinkEat est une plateforme en ligne qui met en relation les restaurants et les clients. Nous offrons une expérience de commande pratique et facile pour les utilisateurs et aidons les restaurants à atteindre un plus large public. Avec LinkEat, vous pouvez découvrir de délicieux plats, passer des commandes en ligne et vous faire livrer directement chez vous.
-        </p>
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6">À propos de LinkEat</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> {# Espacement de 8 entre les grilles #}
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <p class="text-lg text-gray-800 mb-4">
+                        LinkEat est une plateforme en ligne qui met en relation les restaurants et les clients. Nous offrons une expérience de commande pratique et facile pour les utilisateurs et aidons les restaurants à atteindre un plus large public.
+                    </p>
+                    <p class="text-lg text-gray-800">
+                        Avec LinkEat, vous pouvez découvrir de délicieux plats, passer des commandes en ligne et vous faire livrer directement chez vous.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-md shadow-md">
+                    <h3 class="text-2xl text-gray-800 font-bold mb-4">Nos valeurs</h3>
+                    <ul class="list-disc text-lg text-gray-800 pl-6">
+                        <li class="mb-2">Qualité des produits</li>
+                        <li class="mb-2">Service client exceptionnel</li>
+                        <li class="mb-2">Innovation constante</li>
+                        <li class="mb-2">Respect de l'environnement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
