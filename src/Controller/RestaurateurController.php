@@ -18,33 +18,35 @@ class RestaurateurController extends AbstractController
 
         $restaurateur = new Restaurateur();
         $restaurateur->setPremium(false); // Par défaut, la version de base
+
         $form = $this->createForm(RestaurateurType::class, $restaurateur);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {        
             $manager->persist($restaurateur);
 
             $manager->flush();
-        
-            $this->addFlash('success', 'Le formulaire a bien été envoyé !'); // Flash vert pour succès
-            //return $this->redirectToRoute('app_home');
 
-           //dd($restaurateur);
-        } else {
-            $this->addFlash('error', 'Le formulaire n\'a pas été envoyé. Veuillez vérifier vos informations.'); // Flash rouge pour erreur
+            $this->addFlash('success', 'Le formulaire a bien été envoyé !');
+            //return $this->redirectToRoute('app_home');
+        }else {
+            $this->addFlash('error', 'Le formulaire n\'a pas été envoyé. Veuillez vérifier vos informations.');
         }
 
         return $this->render('home_restaurateur/index.html.twig', [
-            'formRestaurateur' => $form->createView(), // Utilisez createView() pour obtenir la vue du formulaire
+            'formRestaurateur' => $form->createView(),
         ]);
 
     }
 
-    #[Route('/home/supplier', name: 'app_home_supplier')]
+
+
+
+    #[Route('/restaurateur/home', name: 'app_home_restaurateur')]
     public function homeRestaurateur(): Response
     {
-        return $this->render('home_supplier/index.html.twig', [
-            'controller_name' => 'HomeSupplierController',
+        return $this->render('restaurateur/index.html.twig', [
+            'controller_name' => 'RestaurateurController',
         ]);
     }
 
