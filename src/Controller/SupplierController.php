@@ -12,12 +12,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\OrderRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as ExceptionNotFoundHttpException;
 use App\Repository\ProductRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class SupplierController extends AbstractController
 {
@@ -191,6 +193,58 @@ public function produit(ProductRepository $productRepository, Security $security
             'confirmationForm' => $form->createView(),
         ]);
 
+}
+
+#[Route('/commande/list', name: 'supplier_orders')]
+public function order(OrderRepository $orderRepository, Security $security): Response
+{
+
+    $supplier = $security->getUser();
+
+    // Assurez-vous que l'utilisateur est un fournisseur
+    if (!$supplier || !($supplier instanceof Supplier)) {
+        throw new \Exception("Accès refusé");
+    }
+
+    // Utilisez le repository pour trouver les produits liés au fournisseur connecté
+    $orders = $orderRepository->findBySupplier($supplier);
+    return $this->render('supplier/order/index.html.twig', [
+        'controller_name' => 'UserController',
+        'orders' => $orders
+    ]);
+}
+
+#[Route('/profil', name: 'my_profile')]
+public function profil(): Response
+{
+    return $this->render('user/index.html.twig', [
+        'controller_name' => 'UserController',
+    ]);
+}
+
+#[Route(path: '/profil-edit/{id}', name: 'profil_edit')]
+public function profilEdit(EntityManagerInterface $manager,ManagerRegistry $managerRegistry,Request $request, string $id): Response
+{
+    $supplier = $managerRegistry->getRepository(Supplier::class)->find($id);
+
+    // Si le produit est null (donc non trouvé en BDD, alors on génère une 404).
+    if (null === $supplier) {
+        throw new NotFoundExceptionInterface();
+    }
+
+    $form = $this->createForm(SupplierType::class, $supplier);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        
+        $manager->flush();
+        return $this->redirectToRoute('app_home_supplier');
+    }
+
+    return $this->render('supplier/user/index.html.twig', [
+        'supplier' => $supplier,
+        'formSupplier' => $form->createView(),
+    ]);
 }
 
 }

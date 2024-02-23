@@ -44,13 +44,26 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $roles = $token->getRoleNames(); // Utilisation de getRoleNames() pour Symfony 6
+
+        // Vérifie si l'utilisateur a un rôle spécifique et redirige en conséquence
+        if (in_array('ROLE_RESTAURATEUR', $roles)) {
+            // Redirection pour le restaurateur
+            return new RedirectResponse($this->urlGenerator->generate('app_home_restaurateur'));
+        } elseif (in_array('ROLE_SUPPLIER', $roles)) {
+            // Redirection pour le fournisseur
+            return new RedirectResponse($this->urlGenerator->generate('app_home_supplier'));
+        }
+
+        // Utilisation de la fonction TargetPathTrait pour la redirection vers le chemin ciblé si disponible
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // Redirect to the 'app_home' route after login
+        // Redirection vers la route 'app_home' par défaut après la connexion
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
+
 
     protected function getLoginUrl(Request $request): string
     {

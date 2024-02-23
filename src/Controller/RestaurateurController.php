@@ -33,7 +33,7 @@ class RestaurateurController extends AbstractController
             $this->addFlash('error', 'Le formulaire n\'a pas été envoyé. Veuillez vérifier vos informations.');
         }
 
-        return $this->render('home_restaurateur/index.html.twig', [
+        return $this->render('restaurateur/new.html.twig', [
             'formRestaurateur' => $form->createView(),
         ]);
 

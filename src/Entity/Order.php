@@ -103,4 +103,9 @@ class Order
 
         return $this;
     }
+
+    public function getNumberOfOrderLines(): int
+    {
+        return $this->orderlines->count();
+    }
 }

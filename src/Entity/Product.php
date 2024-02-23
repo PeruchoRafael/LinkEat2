@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -19,7 +18,7 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: "text")]
     private ?string $description = null;
 
     #[ORM\Column]
@@ -28,25 +27,27 @@ class Product
     #[ORM\Column]
     private ?int $quantity = null;
 
-    #[ORM\OneToMany(targetEntity: Orderline::class, mappedBy: 'product')]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Orderline::class)]
     private Collection $orderlines;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
-    private ?Category $category;
+    private ?Category $category = null;
 
     #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'products')]
-    private ?Supplier $supplier;
+    private ?Supplier $supplier = null;
 
     public function __construct()
     {
         $this->orderlines = new ArrayCollection();
     }
 
+    // ID
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Name
     public function getName(): ?string
     {
         return $this->name;
@@ -55,10 +56,10 @@ class Product
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
+    // Description
     public function getDescription(): ?string
     {
         return $this->description;
@@ -67,10 +68,10 @@ class Product
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
+    // Price
     public function getPrice(): ?float
     {
         return $this->price;
@@ -79,10 +80,10 @@ class Product
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
+    // Quantity
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -91,12 +92,21 @@ class Product
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
+    // Decrement Stock
+    public function decrementStock(int $quantity): void
+    {
+        if ($this->quantity < $quantity) {
+            throw new \LogicException('Not enough stock.');
+        }
+        $this->quantity -= $quantity;
+    }
+
+    // Orderlines
     /**
-     * @return Collection<int, Orderline>
+     * @return Collection|Orderline[]
      */
     public function getOrderlines(): Collection
     {
@@ -106,25 +116,21 @@ class Product
     public function addOrderline(Orderline $orderline): self
     {
         if (!$this->orderlines->contains($orderline)) {
-            $this->orderlines->add($orderline);
+            $this->orderlines[] = $orderline;
             $orderline->setProduct($this);
         }
-
         return $this;
     }
 
     public function removeOrderline(Orderline $orderline, Product $product): self
     {
-        if ($this->orderlines->removeElement($orderline)) {
-            // set the owning side to null (unless already changed)
-            if ($orderline->getProduct() === $this) {
-                $orderline->setProduct($product);
-            }
+        if ($this->orderlines->removeElement($orderline) && $orderline->getProduct() === $this) {
+            $orderline->setProduct($product);   
         }
-
         return $this;
     }
 
+    // Category
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -133,10 +139,10 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
         return $this;
     }
 
+    // Supplier
     public function getSupplier(): ?Supplier
     {
         return $this->supplier;
@@ -145,7 +151,6 @@ class Product
     public function setSupplier(?Supplier $supplier): self
     {
         $this->supplier = $supplier;
-
         return $this;
     }
 }
