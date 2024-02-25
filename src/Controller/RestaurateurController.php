@@ -22,21 +22,20 @@ class RestaurateurController extends AbstractController
         $form = $this->createForm(RestaurateurType::class, $restaurateur);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {        
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($restaurateur);
 
             $manager->flush();
 
             $this->addFlash('success', 'Le formulaire a bien été envoyé !');
             //return $this->redirectToRoute('app_home');
-        }else {
+        } else {
             $this->addFlash('error', 'Le formulaire n\'a pas été envoyé. Veuillez vérifier vos informations.');
         }
 
         return $this->render('restaurateur/new.html.twig', [
             'formRestaurateur' => $form->createView(),
         ]);
-
     }
 
 
@@ -50,4 +49,11 @@ class RestaurateurController extends AbstractController
         ]);
     }
 
+    #[Route('/restaurateur/fournisseur', name: 'app_fournisseur_restaurateur')]
+    public function fournisseurRestaurateur(): Response
+    {
+        return $this->render('restaurateur/fournisseur.html.twig', [
+            'controller_name' => 'RestaurateurController',
+        ]);
+    }
 }
