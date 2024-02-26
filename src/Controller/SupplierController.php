@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\OrderlineRepository;
 use App\Repository\OrderRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as ExceptionNotFoundHttpException;
@@ -20,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Psr\Container\NotFoundExceptionInterface;
+
 
 class SupplierController extends AbstractController
 {
@@ -31,7 +33,7 @@ class SupplierController extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
-    #[Route('/fournisseur/inscription', name: 'app_form_supplier')]
+    #[Route('/inscription/fournisseur', name: 'app_form_supplier')]
     public function newSupplier(Request $request, EntityManagerInterface $manager): Response
     {
         $supplier = new Supplier();
@@ -74,6 +76,14 @@ class SupplierController extends AbstractController
 
     #[Route('/supplier/home', name: 'app_home_supplier')]
     public function index(): Response
+    {
+        return $this->render('supplier/index.html.twig', [
+            'controller_name' => 'HomeSupplierController',
+        ]);
+    }
+
+    #[Route('/profile', name: 'my_profile')]
+    public function profil(): Response
     {
         return $this->render('supplier/index.html.twig', [
             'controller_name' => 'HomeSupplierController',
@@ -214,11 +224,30 @@ public function order(OrderRepository $orderRepository, Security $security): Res
     ]);
 }
 
-#[Route('/profil', name: 'my_profile')]
-public function profil(): Response
+#[Route('/commande/details/{id}', name: 'order_details')]
+public function orderDetails(int $id, OrderRepository $orderRepository, OrderlineRepository $orderlineRepository, Security $security): Response
 {
-    return $this->render('user/index.html.twig', [
-        'controller_name' => 'UserController',
+    $supplier = $security->getUser();
+    
+    // Assurez-vous que l'utilisateur est un fournisseur
+    if (!$supplier || !($supplier instanceof Supplier)) {
+        throw new \Exception("Accès refusé");
+    }
+
+    // Utilisez le repository pour trouver la commande par son ID
+    $order = $orderRepository->findOneBy(['id' => $id, 'supplier' => $supplier]);
+
+    // Si la commande n'existe pas ou ne correspond pas au fournisseur connecté
+    if (!$order) {
+        throw $this->createNotFoundException('La commande demandée n\'existe pas ou vous n\'avez pas le droit de la consulter.');
+    }
+
+    // Récupérez les lignes de commande associées à cette commande
+    $orderlines = $orderlineRepository->findBy(['order' => $order]);
+
+    return $this->render('supplier/order/details.html.twig', [
+        'order' => $order,
+        'orderlines' => $orderlines,
     ]);
 }
 

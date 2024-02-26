@@ -37,10 +37,14 @@
             {{ order.orderDate|date('Y-m-d H:i:s') }}
         </td>
         <td class="px-6 py-4">
-            test
+            {{ order.status }}
         </td>
         <td class="px-6 py-4">
-            Voir détails commande >
+
+        <a href="{{ path('order_details', {'id': order.id}) }}" class="text-blue-500 hover:underline">Voir détails</a>
+        
+        
+                           
         </td>
     </tr>
 {% else %}

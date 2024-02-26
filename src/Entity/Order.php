@@ -28,6 +28,9 @@ class Order
     #[ORM\OneToMany(targetEntity: Orderline::class, mappedBy: 'order', cascade: ['persist', 'remove'])]
     private Collection $orderlines;
 
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->orderlines = new ArrayCollection();
@@ -107,5 +110,17 @@ class Order
     public function getNumberOfOrderLines(): int
     {
         return $this->orderlines->count();
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }

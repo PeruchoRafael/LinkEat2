@@ -21,7 +21,7 @@ class OrderlineFixtures extends Fixture implements DependentFixtureInterface
             ],
             [
                 'quantity' => 3,
-                'order' => 'order_0', // Reference à la même commande que ci-dessus
+                'order' => 'order_2', // Reference à la même commande que ci-dessus
                 'product' => 'Sole', // Nom du produit
             ],
             [

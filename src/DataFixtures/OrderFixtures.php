@@ -18,22 +18,26 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
                 'orderDate' => new \DateTimeImmutable('now'),
                 'email' => 'amandine.toulouse@gmail.com',
                 'supplier' => 'Orchidées Fruitées',
+                'status' => 'NEW',
             ],
             [
                 'orderDate' => new \DateTimeImmutable('now'),
                 'email' => 'clara.montpellier@outlook.com',
                 'supplier' => 'Poissonnerie Maree',
+                'status' => 'NEW',
             ],
             [
                 'orderDate' => new \DateTimeImmutable('now'),
                 'email' => 'bruno.caen@outlook.com',
                 'supplier' => 'Boucherie Dupont',
+                'status' => 'NEW',
             ],
         ];
 
         foreach ($orders as $key => $orderData) {
             $order = new Order();
             $order->setOrderDate($orderData['orderDate']);
+            $order->setStatus($orderData['status']);
 
             // Récupérer la référence du restaurateur en utilisant l'email
             $restaurateurReference = $this->getReference($orderData['email']);
