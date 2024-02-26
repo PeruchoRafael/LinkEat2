@@ -157,7 +157,7 @@ class SupplierController extends AbstractController
             $manager->flush();
 
             // Rediriger vers une route appropriée après l'ajout
-            return $this->redirectToRoute('app_home_supplier');
+            return $this->redirectToRoute('app_products');
         }
 
         return $this->render('supplier/product/new.html.twig', [
