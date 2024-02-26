@@ -3,51 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkEat</title>
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <script src=" https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>LinkEat - Statistiques</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
     
-    <canvas id="myChart"></canvas>
+    <div class="max-w-lg p-6 bg-white rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">Statistiques des visiteurs et acheteurs</h1>
+        
+        <canvas id="myChart" class="w-full max-w-md mx-auto mb-4"></canvas>
+        
+        <p class="text-gray-600">Ce graphique présente les statistiques mensuelles des visiteurs et des acheteurs pour votre site.</p>
+
+        <div class="mt-8 border-t border-gray-300 pt-4">
+            <h2 class="text-lg font-semibold mb-2">Interprétation des données :</h2>
+            <p class="text-gray-600">Les données sont basées sur les statistiques mensuelles de LinkEat. Les visiteurs représentent le nombre de visiteurs uniques, tandis que les acheteurs représentent le nombre d'utilisateurs ayant effectué un achat sur LinkEat.</p>
+        </div>
+    </div>
 
     <script>
-
         let ctx = document.getElementById("myChart").getContext('2d');
 
         let data = {
-            labels: [
-    'Restaurateur',
-    'Supplier',
-  ],
-  datasets: [{
-    label: 'Nombres',
-    data: [15, 9],
-    backgroundColor: [
-      'rgb(255, 99, 132)',
-      'rgb(54, 162, 235)',
-      'rgb(255, 205, 86)'
-    ],
-    hoverOffset: 4
-
-  }]
-};
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+            datasets: [{
+                label: 'Visiteurs',
+                data: [12, 19, 15, 13, 14, 17],
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 3
+            }, {
+                label: 'Acheteurs',
+                data: [6, 9, 7, 2, 4, 7],
+                backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                borderColor: 'rgba(255, 0, 0, 1)',
+                borderWidth: 3
+            }]
+        }
 
         let myChart = new Chart(ctx, {
-            type: 'pie',
+            type: 'line',
             data: data,
             options: {
-                responsive: true,
+                responsive: false,
+                maintainAspectRatio: false,
+                aspectRatio: 2,
                 scales: {
                     y: {
                         beginAtZero: true
                     }
                 }
             }
-        })
-
-        console.log(data)
-
+        });
     </script>
 
 </body>
