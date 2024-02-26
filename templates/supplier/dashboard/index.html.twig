@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkEat</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src=" https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    
+    <canvas id="myChart"></canvas>
+
+    <script>
+
+        let ctx = document.getElementById("myChart").getContext('2d');
+
+        let data = {
+            labels: [
+    'Restaurateur',
+    'Supplier',
+  ],
+  datasets: [{
+    label: 'Nombres',
+    data: [15, 9],
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ],
+    hoverOffset: 4
+
+  }]
+};
+
+        let myChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        })
+
+        console.log(data)
+
+    </script>
+
+</body>
+</html>

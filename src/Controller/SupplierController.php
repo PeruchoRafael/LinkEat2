@@ -42,7 +42,7 @@ class SupplierController extends AbstractController
 
         if ($form->isSubmitted()) {
 
-            if ( $form->isValid()) {
+            if ($form->isValid()) {
                 try {
 
                     // Récupérer le mot de passe en texte brut à partir du formulaire
@@ -53,9 +53,9 @@ class SupplierController extends AbstractController
                     $supplier->setPassword($hashedPassword);
 
                     $manager->persist($supplier);
-    
+
                     $manager->flush();
-        
+
                     $this->addFlash('success', 'Fournisseur correctement enregistrée !');
                     return $this->redirectToRoute('app_home');
                 } catch (\Exception $e) {
@@ -64,14 +64,11 @@ class SupplierController extends AbstractController
             } else {
                 $this->addFlash('error', 'Erreur sur la saisie, veuillez vérifier votre saisie...');
             }
-
-           
-            
         }
 
         return $this->render('supplier/new.html.twig', [
             'formSupplier' => $form->createView()
-   ]);
+        ]);
     }
 
     #[Route('/supplier/home', name: 'app_home_supplier')]
@@ -91,27 +88,27 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/product/list', name: 'app_products')]
-public function produit(ProductRepository $productRepository, Security $security): Response
-{
-    // Obtenez l'utilisateur connecté
-    $supplier = $security->getUser();
+    public function produit(ProductRepository $productRepository, Security $security): Response
+    {
+        // Obtenez l'utilisateur connecté
+        $supplier = $security->getUser();
 
-    // Assurez-vous que l'utilisateur est un fournisseur
-    if (!$supplier || !($supplier instanceof Supplier)) {
-        throw new \Exception("Accès refusé");
+        // Assurez-vous que l'utilisateur est un fournisseur
+        if (!$supplier || !($supplier instanceof Supplier)) {
+            throw new \Exception("Accès refusé");
+        }
+
+        // Utilisez le repository pour trouver les produits liés au fournisseur connecté
+        $products = $productRepository->findBySupplier($supplier);
+
+        return $this->render('supplier/product/index.html.twig', [
+            'controller_name' => 'HomeSupplierController',
+            'products' => $products
+        ]);
     }
 
-    // Utilisez le repository pour trouver les produits liés au fournisseur connecté
-    $products = $productRepository->findBySupplier($supplier);
-
-    return $this->render('supplier/product/index.html.twig', [
-        'controller_name' => 'HomeSupplierController',
-        'products' => $products
-    ]);
-}
-
     #[Route(path: '/product-edit/{id}', name: 'product_edit')]
-    public function productEdit(EntityManagerInterface $manager,ManagerRegistry $managerRegistry,Request $request, string $id): Response
+    public function productEdit(EntityManagerInterface $manager, ManagerRegistry $managerRegistry, Request $request, string $id): Response
     {
         $product = $managerRegistry->getRepository(Product::class)->find($id);
 
@@ -124,7 +121,7 @@ public function produit(ProductRepository $productRepository, Security $security
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $manager->flush();
             return $this->redirectToRoute('app_products');
         }
@@ -139,16 +136,16 @@ public function produit(ProductRepository $productRepository, Security $security
     public function new(Request $request, Security $security, EntityManagerInterface $manager): Response
     {
         $product = new Product();
-        
+
         // Obtenez l'utilisateur connecté (fournisseur)
         $supplier = $security->getUser();
-        
+
         // Vérifiez si l'utilisateur est un Supplier avant de continuer
-       #{ if (!$supplier || !($supplier instanceof \App\Entity\Supplier)) {
-            // Gérer l'erreur ou rediriger l'utilisateur si nécessaire
-            #return $this->redirectToRoute('some_route');
+        #{ if (!$supplier || !($supplier instanceof \App\Entity\Supplier)) {
+        // Gérer l'erreur ou rediriger l'utilisateur si nécessaire
+        #return $this->redirectToRoute('some_route');
         #}
-        
+
         // Attribuer le fournisseur connecté au produit
         $product->setSupplier($supplier);
 
@@ -175,105 +172,111 @@ public function produit(ProductRepository $productRepository, Security $security
             ->getForm();
     }
 
-   
+
     #[Route('/product-delete/{id}', name: 'product_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, EntityManagerInterface $manager, string $id): Response
     {
         $product = $manager->getRepository(Product::class)->find($id);
-    
+
         if (null === $product) {
             throw $this->createNotFoundException('Le produit n\'a pas été trouvé.');
         }
-    
+
         $form = $this->createDeleteConfirmationForm();
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->remove($product);
             $manager->flush();
-    
+
             $this->addFlash('success', 'Le produit a été supprimé avec succès.');
-    
+
             return $this->redirectToRoute('app_home_supplier');
         }
-    
+
         // Afficher la vue de confirmation si le formulaire n'a pas été soumis/validé
         return $this->render('supplier/product/delete.html.twig', [
             'product' => $product,
             'confirmationForm' => $form->createView(),
         ]);
-
-}
-
-#[Route('/commande/list', name: 'supplier_orders')]
-public function order(OrderRepository $orderRepository, Security $security): Response
-{
-
-    $supplier = $security->getUser();
-
-    // Assurez-vous que l'utilisateur est un fournisseur
-    if (!$supplier || !($supplier instanceof Supplier)) {
-        throw new \Exception("Accès refusé");
     }
 
-    // Utilisez le repository pour trouver les produits liés au fournisseur connecté
-    $orders = $orderRepository->findBySupplier($supplier);
-    return $this->render('supplier/order/index.html.twig', [
-        'controller_name' => 'UserController',
-        'orders' => $orders
-    ]);
-}
+    #[Route('/commande/list', name: 'supplier_orders')]
+    public function order(OrderRepository $orderRepository, Security $security): Response
+    {
 
-#[Route('/commande/details/{id}', name: 'order_details')]
-public function orderDetails(int $id, OrderRepository $orderRepository, OrderlineRepository $orderlineRepository, Security $security): Response
-{
-    $supplier = $security->getUser();
-    
-    // Assurez-vous que l'utilisateur est un fournisseur
-    if (!$supplier || !($supplier instanceof Supplier)) {
-        throw new \Exception("Accès refusé");
+        $supplier = $security->getUser();
+
+        // Assurez-vous que l'utilisateur est un fournisseur
+        if (!$supplier || !($supplier instanceof Supplier)) {
+            throw new \Exception("Accès refusé");
+        }
+
+        // Utilisez le repository pour trouver les produits liés au fournisseur connecté
+        $orders = $orderRepository->findBySupplier($supplier);
+        return $this->render('supplier/order/index.html.twig', [
+            'controller_name' => 'UserController',
+            'orders' => $orders
+        ]);
     }
 
-    // Utilisez le repository pour trouver la commande par son ID
-    $order = $orderRepository->findOneBy(['id' => $id, 'supplier' => $supplier]);
+    #[Route('/commande/details/{id}', name: 'order_details')]
+    public function orderDetails(int $id, OrderRepository $orderRepository, OrderlineRepository $orderlineRepository, Security $security): Response
+    {
+        $supplier = $security->getUser();
 
-    // Si la commande n'existe pas ou ne correspond pas au fournisseur connecté
-    if (!$order) {
-        throw $this->createNotFoundException('La commande demandée n\'existe pas ou vous n\'avez pas le droit de la consulter.');
+        // Assurez-vous que l'utilisateur est un fournisseur
+        if (!$supplier || !($supplier instanceof Supplier)) {
+            throw new \Exception("Accès refusé");
+        }
+
+        // Utilisez le repository pour trouver la commande par son ID
+        $order = $orderRepository->findOneBy(['id' => $id, 'supplier' => $supplier]);
+
+        // Si la commande n'existe pas ou ne correspond pas au fournisseur connecté
+        if (!$order) {
+            throw $this->createNotFoundException('La commande demandée n\'existe pas ou vous n\'avez pas le droit de la consulter.');
+        }
+
+        // Récupérez les lignes de commande associées à cette commande
+        $orderlines = $orderlineRepository->findBy(['order' => $order]);
+
+        return $this->render('supplier/order/details.html.twig', [
+            'order' => $order,
+            'orderlines' => $orderlines,
+        ]);
     }
 
-    // Récupérez les lignes de commande associées à cette commande
-    $orderlines = $orderlineRepository->findBy(['order' => $order]);
+    #[Route(path: '/profil-edit/{id}', name: 'profil_edit')]
+    public function profilEdit(EntityManagerInterface $manager, ManagerRegistry $managerRegistry, Request $request, string $id): Response
+    {
+        $supplier = $managerRegistry->getRepository(Supplier::class)->find($id);
 
-    return $this->render('supplier/order/details.html.twig', [
-        'order' => $order,
-        'orderlines' => $orderlines,
-    ]);
-}
+        // Si le produit est null (donc non trouvé en BDD, alors on génère une 404).
+        if (null === $supplier) {
+            throw new NotFoundExceptionInterface();
+        }
 
-#[Route(path: '/profil-edit/{id}', name: 'profil_edit')]
-public function profilEdit(EntityManagerInterface $manager,ManagerRegistry $managerRegistry,Request $request, string $id): Response
-{
-    $supplier = $managerRegistry->getRepository(Supplier::class)->find($id);
+        $form = $this->createForm(SupplierType::class, $supplier);
+        $form->handleRequest($request);
 
-    // Si le produit est null (donc non trouvé en BDD, alors on génère une 404).
-    if (null === $supplier) {
-        throw new NotFoundExceptionInterface();
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->flush();
+            return $this->redirectToRoute('app_home_supplier');
+        }
+
+        return $this->render('supplier/user/index.html.twig', [
+            'supplier' => $supplier,
+            'formSupplier' => $form->createView(),
+        ]);
     }
 
-    $form = $this->createForm(SupplierType::class, $supplier);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        
-        $manager->flush();
-        return $this->redirectToRoute('app_home_supplier');
+    #[Route('/dashboard', name: 'my_dashboard')]
+    public function chart(): Response
+    {
+        return $this->render('supplier/dashboard/index.html.twig', [
+            'controller_name' => 'DashboardSupplierController',
+        ]);
     }
-
-    return $this->render('supplier/user/index.html.twig', [
-        'supplier' => $supplier,
-        'formSupplier' => $form->createView(),
-    ]);
-}
-
 }
