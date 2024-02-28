@@ -1,21 +1,22 @@
-{% block title %}Supression d'un produit : {{ product.name }}{% endblock %}
+{% extends 'base.html.twig' %}
 
+{% block title %}Suppression d'un produit : {{ product.name }}{% endblock %}
 
 {% block body %}
-<div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
-    {{ form_start(confirmationForm, {'attr': {'class': 'space-y-4'}}) }}
-    
-    <p class="text-lg text-gray-800 mb-4">Êtes-vous sûr de vouloir supprimer le produit "{{ product.name }}" ?</p>
-    
-    <div class="flex items-center space-x-2">
-        {{ form_widget(confirmationForm.confirm, {'attr': {'class': 'form-checkbox h-4 w-4 text-indigo-600'}}) }}
-        <label for="{{ confirmationForm.confirm.vars.id }}" class="text-sm text-gray-700">Oui, je confirme la suppression</label>
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="max-w-lg w-full mx-auto bg-white p-10 border border-gray-300 rounded-lg shadow">
+        <h2 class="text-2xl font-bold text-gray-900 text-center">Confirmez la suppression</h2>
+        <p class="mt-4 text-lg text-gray-600 text-center">Voulez-vous vraiment supprimer le produit "{{ product.name }}" ?<br>Cette action est irréversible.</p>
+        
+        {{ form_start(confirmationForm, {'attr': {'class': 'space-y-6 mt-8'}}) }}
+            <div class="flex items-center justify-center">
+            </div>
+            
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="{{ path('app_products') }}" class="px-6 py-3 bg-gray-200 border border-transparent rounded-md font-semibold text-gray-700 hover:bg-gray-300 focus:outline-none focus:border-gray-300 focus:ring focus:ring-gray-200 transition ease-in-out duration-150">Annuler</a>
+                <button type="submit" class="px-6 py-3 bg-red-600 border border-transparent rounded-md font-semibold text-white hover:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 transition ease-in-out duration-150">Confirmer la suppression</button>
+            </div>
+            {{ form_end(confirmationForm) }}
     </div>
-
-    <div class="flex justify-end">
-        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-white hover:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 disabled:opacity-50">Supprimer</button>
-    </div>
-
-    {{ form_end(confirmationForm) }}
 </div>
 {% endblock %}

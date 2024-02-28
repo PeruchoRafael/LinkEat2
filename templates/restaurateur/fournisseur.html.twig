@@ -1,1 +1,109 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}Liste des Fournisseurs{% endblock %}
+
+{% block body %}
+<div class="container mx-auto mt-10">
+    <div class="flex justify-center mb-4">
+        <h1 class="text-4xl font-bold text-center">Nos Fournisseurs</h1>
+    </div>
+    <div class="flex justify-center mb-4">
+        <input type="text" id="searchInput" placeholder="Rechercher un fournisseur..." class="px-4 py-2 border rounded">
+    </div>
+    <div id="fournisseursList" class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for fournisseur in fournisseurs %}
+            <div class="fournisseur bg-white rounded-lg shadow-lg p-4" data-name="{{ fournisseur.companyName|lower }}" data-id="{{ fournisseur.id }}">
+                <h2 class="text-xl font-bold">{{ fournisseur.companyName }}</h2>
+                <p>{{ fournisseur.description }}</p>
+                <address>{{ fournisseur.address }}, {{ fournisseur.city }}</address>
+                <a href="mailto:{{ fournisseur.email }}" class="text-blue-500 hover:text-blue-700">{{ fournisseur.email }}</a>
+                <div class="mt-4">
+                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#{{ fournisseur.category.name }}</span>
+                </div>
+                <button class="toggle-favorites mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Ajouter aux favoris</button>
+            </div>
+        {% else %}
+            <p>Aucun fournisseur trouvé.</p>
+        {% endfor %}
+    </div>
+    <div class="flex justify-center mt-8">
+        <a href="{{ path('app_home_restaurateur') }}" class="btn-retour px-6 py-3 bg-gray-600 text-white rounded hover:bg-gray-800">Retour à l'accueil</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const fournisseurs = document.querySelectorAll('.fournisseur');
+
+    searchInput.addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase();
+        
+        fournisseurs.forEach(function(fournisseur) {
+            const name = fournisseur.getAttribute('data-name');
+            if (name.includes(searchValue)) {
+                fournisseur.style.display = '';
+            } else {
+                fournisseur.style.display = 'none';
+            }
+        });
+    });
+
+    document.querySelectorAll('.toggle-favorites').forEach(button => {
+        const fournisseurId = button.closest('.fournisseur').getAttribute('data-id');
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        
+        if (favorites.includes(fournisseurId)) {
+            button.textContent = 'Retirer des favoris';
+        } else {
+            button.textContent = 'Ajouter aux favoris';
+        }
+
+        button.addEventListener('click', function() {
+            let index = favorites.indexOf(fournisseurId);
+            if (index === -1) {
+                favorites.push(fournisseurId);
+                button.textContent = 'Retirer des favoris';
+            } else {
+                favorites.splice(index, 1);
+                button.textContent = 'Ajouter aux favoris';
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        });
+    });
+});
+</script>
+
+<style>
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .btn-retour {
+        transition: background-color 0.3s ease;
+    }
+    @media (min-width: 576px) {
+        .container {
+            max-width: 540px;
+        }
+    }
+    @media (min-width: 768px) {
+        .container {
+            max-width: 720px;
+        }
+    }
+    @media (min-width: 992px) {
+        .container {
+            max-width: 960px;
+        }
+    }
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1140px;
+        }
+    }
+</style>
+{% endblock %}

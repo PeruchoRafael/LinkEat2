@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\User;
+use App\Entity\Supplier;
 use App\Entity\Restaurateur;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,11 +51,14 @@ class RestaurateurController extends AbstractController
         ]);
     }
 
-    #[Route('/restaurateur/fournisseur', name: 'app_fournisseur_restaurateur')]
-    public function fournisseurRestaurateur(): Response
+    #[Route('/restaurateur/fournisseur', name: 'fournisseurs')]
+    public function fournisseurRestaurateur(EntityManagerInterface $entityManager): Response
     {
+        // Utilisez entityManager pour obtenir le dépôt de l'entité Supplier directement
+        $fournisseurs = $entityManager->getRepository(Supplier::class)->findAll();
+
         return $this->render('restaurateur/fournisseur.html.twig', [
-            'controller_name' => 'RestaurateurController',
+            'fournisseurs' => $fournisseurs,
         ]);
     }
 }

@@ -3,47 +3,45 @@
 {% block title %}Administration des produits : {{ product.name }}{% endblock %}
 
 {% block body %}
-    <div class="bg-gray-100 min-h-screen flex items-center justify-center">
-        <div class="bg-white p-8 rounded-md shadow-md max-w-md w-full">
-            <h1 class="text-4xl font-extrabold mb-6 text-blue-500">Modification du produit {{ product.name }}</h1>
+<div class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+        <h1 class="text-4xl font-extrabold mb-8 text-blue-500 text-center">Modification du produit: {{ product.name }}</h1>
 
-            {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+        {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
 
-            <div>
-                <label for="{{ form.name.vars.id }}" class="block text-sm font-medium text-gray-700"></label>
-                {{ form_row(form.name, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
-                {{ form_errors(form.name) }}
-            </div>
-
-            <div>
-                <label for="{{ form.description.vars.id }}" class="block text-sm font-medium text-gray-700"></label>
-                {{ form_row(form.description, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
-                {{ form_errors(form.description) }}
-            </div>
-
-            <div>
-                <label for="{{ form.price.vars.id }}" class="block text-sm font-medium text-gray-700"></label>
-                {{ form_row(form.price, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
-                {{ form_errors(form.price) }}
-            </div>
-
-            <div>
-                <label for="{{ form.quantity.vars.id }}" class="block text-sm font-medium text-gray-700"></label>
-                {{ form_row(form.quantity, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
-                {{ form_errors(form.quantity) }}
-            </div>
-
-            <div>
-                <label for="{{ form.category.vars.id }}" class="block text-sm font-medium text-gray-700"></label>
-                {{ form_row(form.category, {'attr': {'class': 'form-select mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
-                {{ form_errors(form.category) }}
-            </div>
-
-            <button type="submit" class=""></button>
-
-            {{ form_end(form) }}
-
-            <a href="{{ path('app_home') }}" class="text-gray-500 hover:underline block mt-4">Retour à la liste</a>
+        <div class="space-y-2">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'block text-lg font-medium text-gray-700'}, 'label': 'Nom'}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+            {{ form_errors(form.name) }}
         </div>
+
+        <div class="space-y-2">
+            {{ form_label(form.description, null, {'label_attr': {'class': 'block text-lg font-medium text-gray-700'}, 'label': 'Description'}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-textarea mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+
+        <div class="space-y-2">
+            {{ form_label(form.price, null, {'label_attr': {'class': 'block text-lg font-medium text-gray-700'}, 'label': 'Prix'}) }}
+            {{ form_widget(form.price, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+            {{ form_errors(form.price) }}
+        </div>
+
+        <div class="space-y-2">
+            {{ form_label(form.quantity, null, {'label_attr': {'class': 'block text-lg font-medium text-gray-700'}, 'label': 'Quantité'}) }}
+            {{ form_widget(form.quantity, {'attr': {'class': 'form-input mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+            {{ form_errors(form.quantity) }}
+        </div>
+
+        <div class="space-y-2">
+            {{ form_label(form.category, null, {'label_attr': {'class': 'block text-lg font-medium text-gray-700 '}, 'label': 'Catégorie'}) }}
+            {{ form_widget(form.category, {'attr': {'class': 'form-select mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+            {{ form_errors(form.category) }}
+        </div>
+
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_products') }}" class="text-gray-500 hover:text-blue-500 block mt-4 text-center">Retour à la liste</a>
     </div>
+</div>
 {% endblock %}
