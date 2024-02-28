@@ -18,7 +18,7 @@
                     Prix à l'unité
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Prix total
+                    Prix total produits
                 </th>
             </tr>
         </thead>
@@ -36,7 +36,9 @@
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ orderline.product.price }} €
                     </td>
-                    
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ lineTotal }} €
+                    </td>
                 </tr>
                 {% set total = total + lineTotal %}
             {% else %}
@@ -46,7 +48,7 @@
             {% endfor %}
             <tr class="bg-gray-100 dark:bg-gray-700">
                 <td colspan="3" class="text-right px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Prix total :
+                    Prix total commande :
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ total }} €

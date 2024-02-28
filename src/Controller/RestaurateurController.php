@@ -41,7 +41,7 @@ class RestaurateurController extends AbstractController
 
 
 
-    #[Route('/restaurateur/home', name: 'app_home_restaurateur')]
+    #[Route('/restaurateur/home', name: 'home_restaurateur')]
     public function homeRestaurateur(): Response
     {
         return $this->render('restaurateur/index.html.twig', [
@@ -49,11 +49,13 @@ class RestaurateurController extends AbstractController
         ]);
     }
 
-    #[Route('/restaurateur/fournisseur', name: 'app_fournisseur_restaurateur')]
+    #[Route('/fournisseur', name: 'restaurant_suppliers')]
     public function fournisseurRestaurateur(): Response
     {
         return $this->render('restaurateur/fournisseur.html.twig', [
             'controller_name' => 'RestaurateurController',
         ]);
     }
+
+
 }

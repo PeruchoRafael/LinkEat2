@@ -19,26 +19,31 @@
       <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
       <div class="items-center md:flex">
         {% if is_granted('ROLE_SUPPLIER') %}
+          <!-- Links for suppliers -->
           <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
             <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_home_supplier') }}">Tableau de bord</a>
             <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_products') }}">Produits</a>
             <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('supplier_orders') }}">Commandes</a>
-            
           </div>
-        {% else %}
+        {% elseif is_granted('ROLE_RESTAURATEUR') %}
+          <!-- Additional link for restaurateurs -->
           <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
-            <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_home') }}">Accueil</a>
+            <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('home_restaurateur') }}">Accueil</a>
+          </div>
+          <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
+            <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('restaurant_suppliers') }}">Nos fournisseurs</a>
           </div>
         {% endif %}
+        <!-- General links -->
         <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
           <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_aboutUs') }}">À propos de nous</a>
           <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_contact') }}">Nous contacter</a>
         </div>
         {% if not app.user %}
+          <!-- Authentication links -->
           <div class="flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1">
             <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_login') }}">Connexion</a>
             <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_sign_up') }}">Inscription</a>
-          </div>
         {% endif %}
       </div>
     </div>
