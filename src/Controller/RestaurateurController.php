@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\RestaurateurType;
 
+
 class RestaurateurController extends AbstractController
 {
     #[Route('/inscription/restaurateur', name: 'app_form_restaurateur')]
@@ -50,4 +51,17 @@ class RestaurateurController extends AbstractController
             'controller_name' => 'RestaurateurController',
         ]);
     }
+
+    #[Route('/restaurateur/fournisseur', name: 'suppliers')]
+    public function fournisseurRestaurateur(EntityManagerInterface $entityManager): Response
+    {
+        // Utilisez entityManager pour obtenir le dépôt de l'entité Supplier directement
+        $fournisseurs = $entityManager->getRepository(Supplier::class)->findAll();
+
+        return $this->render('restaurateur/fournisseur.html.twig', [
+            'controller_name' => 'RestaurateurController',
+            'fournisseurs' => $fournisseurs,
+        ]);
+    }
+
 }

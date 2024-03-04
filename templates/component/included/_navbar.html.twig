@@ -25,8 +25,8 @@
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_aboutUs') }}">À propos de nous</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_contact') }}">Nous contacter</a>
                 {% elseif is_granted('ROLE_RESTAURATEUR') %}
-                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_home_restaurateur') }}">Accueil</a>
-                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('fournisseurs') }}">Fournisseurs</a>
+                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('home_restaurateur') }}">Accueil</a>
+                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('suppliers') }}">Fournisseurs</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_aboutUs') }}">À propos de nous</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_contact') }}">Nous contacter</a>
                 {% endif %}
