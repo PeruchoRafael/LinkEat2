@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\User;
+use App\Entity\Supplier;
 use App\Entity\Restaurateur;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,14 +50,4 @@ class RestaurateurController extends AbstractController
             'controller_name' => 'RestaurateurController',
         ]);
     }
-
-    #[Route('/fournisseur', name: 'restaurant_suppliers')]
-    public function fournisseurRestaurateur(): Response
-    {
-        return $this->render('restaurateur/fournisseur.html.twig', [
-            'controller_name' => 'RestaurateurController',
-        ]);
-    }
-
-
 }

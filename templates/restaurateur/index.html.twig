@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
 <div>
     <a href="/" class="flex items-center justify-center mt-6 text-2xl font-semibold text-gray-900 dark:text-white">
         <img class="mx-auto w-15 h-15 mb-2" src="{{ asset('assets/linkeat.png') }}" alt="Logo du site EatLink">
@@ -19,10 +18,68 @@
             Découvrir nos fournisseurs
         </button>
     </a>
-    <br>
-    <br>
-    <br>
+    <br><br><br>
     <h1 class="text-2xl mb-4">Voici votre liste de fournisseurs :</h1>
+    <div id="favoriteSuppliers" class="mt-6"></div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const container = document.getElementById('favoriteSuppliers');
+    
+    function updateFavoritesDisplay() {
+        container.innerHTML = ''; // Clear existing elements
+        if (favorites.length > 0) {
+            favorites.forEach(id => {
+                const div = document.createElement('div');
+                div.textContent = `Fournisseur ID: ${id} (Favori)`;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Retirer';
+                removeButton.onclick = function() {
+                    favorites = favorites.filter(favId => favId !== id);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    updateFavoritesDisplay(); // Update display
+                };
+                div.appendChild(removeButton);
+                container.appendChild(div);
+            });
+        } else {
+            container.textContent = 'Vous n\'avez pas encore ajouté de fournisseurs aux favoris.';
+        }
+    }
+
+    updateFavoritesDisplay();
+});
+</script>
+
+<style>
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    @media (min-width: 576px) {
+        .container {
+            max-width: 540px;
+        }
+    }
+    @media (min-width: 768px) {
+        .container {
+            max-width: 720px;
+        }
+    }
+    @media (min-width: 992px) {
+        .container {
+            max-width: 960px;
+        }
+    }
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1140px;
+        }
+    }
+</style>
 {% endblock %}
