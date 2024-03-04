@@ -18,7 +18,7 @@
             </div>
             <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
             <div class="items-center md:flex">
-                {% if is_granted('ROLE_SUPPLIER') %}
+                 {% if is_granted('ROLE_SUPPLIER') %}
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_home_supplier') }}">Tableau de bord</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_products') }}">Produits</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('supplier_orders') }}">Commandes</a>
@@ -29,16 +29,26 @@
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('suppliers') }}">Fournisseurs</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_aboutUs') }}">À propos de nous</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_contact') }}">Nous contacter</a>
-                {% endif %}
-                {% if app.user %}
-                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-red-500 md:mx-4 md:my-0" href="{{ path('app_logout') }}">Déconnexion</a>
+                
                 {% else %}
-                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_aboutUs') }}">À propos de nous</a>
-                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_contact') }}">Nous contacter</a>
+                      {% set currentRoute = app.request.attributes.get('_route') %}
+                    {% if currentRoute != 'app_home' %}
+                        <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_home') }}">Accueil</a>
+                    {% endif %}
+                    {% if currentRoute != 'app_aboutUs' %}
+                        <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_aboutUs') }}">À propos de nous</a>
+                    {% endif %}
+                    {% if currentRoute != 'app_contact' %}
+                        <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_contact') }}">Nous contacter</a>
+                    {% endif %}
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_login') }}">Connexion</a>
                     <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-500 md:mx-4 md:my-0" href="{{ path('app_sign_up') }}">Inscription</a>
+                {% endif %}
+
+                {% if app.user %}
+                    <a class="my-1 text-sm text-gray-700 dark:text-gray-200 hover:text-red-500 md:mx-4 md:my-0" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% endif %}
             </div>
         </div>
     </div>
-</nav>    
+</nav>

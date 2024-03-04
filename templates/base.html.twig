@@ -14,12 +14,13 @@
 
         {% block body %}
         {% endblock %}
+    
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <script src="{{ asset('asset/script/script.js') }}"></script>
         {% endblock %}
         
-        {# {% include 'layouts/footer.html.twig' %} #}
+        {% include 'component/included/_footer.html.twig' %}
     </body>
 </html>
