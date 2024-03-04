@@ -49,7 +49,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         // Vérifie si l'utilisateur a un rôle spécifique et redirige en conséquence
         if (in_array('ROLE_RESTAURATEUR', $roles)) {
             // Redirection pour le restaurateur
-            return new RedirectResponse($this->urlGenerator->generate('app_home_restaurateur'));
+            return new RedirectResponse($this->urlGenerator->generate('home_restaurateur'));
         } elseif (in_array('ROLE_SUPPLIER', $roles)) {
             // Redirection pour le fournisseur
             return new RedirectResponse($this->urlGenerator->generate('app_home_supplier'));
