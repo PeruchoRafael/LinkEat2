@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Supplier;
 use App\Entity\Restaurateur;
+use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\RestaurateurType;
@@ -58,9 +59,26 @@ class RestaurateurController extends AbstractController
         // Utilisez entityManager pour obtenir le dépôt de l'entité Supplier directement
         $fournisseurs = $entityManager->getRepository(Supplier::class)->findAll();
 
+        $categories = $entityManager->getRepository(Category::class)->findAll();
+
         return $this->render('restaurateur/fournisseur.html.twig', [
             'controller_name' => 'RestaurateurController',
             'fournisseurs' => $fournisseurs,
+            'categories' => $categories,
+        ]);
+    }
+
+    #[Route('/restaurateur/fournisseur/{id}', name: 'fournisseur_profil')]
+    public function showFournisseur(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $fournisseur = $entityManager->getRepository(Supplier::class)->find($id);
+
+        if (!$fournisseur) {
+            throw $this->createNotFoundException('Le fournisseur demandé n\'existe pas.');
+        }
+
+        return $this->render('restaurateur/fournisseur_profil.html.twig', [
+            'fournisseur' => $fournisseur,
         ]);
     }
 

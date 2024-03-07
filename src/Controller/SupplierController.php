@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use App\Repository\RestaurateurRepository;
 
 
 class SupplierController extends AbstractController
@@ -269,14 +270,6 @@ class SupplierController extends AbstractController
         return $this->render('supplier/user/index.html.twig', [
             'supplier' => $supplier,
             'formSupplier' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/dashboard', name: 'my_dashboard')]
-    public function chart(): Response
-    {
-        return $this->render('supplier/dashboard/index.html.twig', [
-            'controller_name' => 'DashboardSupplierController',
         ]);
     }
 }

@@ -40,10 +40,14 @@ class Supplier extends User
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     private ?Category $category = null;
 
+    #[ORM\OneToMany(mappedBy: 'supplier', targetEntity: Product::class)]
+    private Collection $products;
+
     public function __construct()
     {
         parent::__construct(); // Ajoutez cette ligne pour appeler le constructeur de User
         $this->orders = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
 
@@ -178,5 +182,31 @@ class Supplier extends User
         return $this;
     }
 
-    
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setSupplier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product) && $product->getSupplier() === $this) {
+            $product->setSupplier(null);
+        }
+
+        return $this;
+    }
+
 }

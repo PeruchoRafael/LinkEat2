@@ -1,61 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-<a class="mt-[10px]" href="{{ path('supplier_orders') }}">Retour à la liste des commandes</a>
-
-<div class="relative overflow-x-auto mt-[30px]">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Nom du produit
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Quantité de produits commandés
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Prix à l'unité
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Prix total produits
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% set total = 0 %}
-            {% for orderline in orderlines %}
-                {% set lineTotal = orderline.quantity * orderline.product.price %}
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td class="px-6 py-4">
-                        {{ orderline.product.name }}
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ orderline.quantity }}
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ orderline.product.price }} €
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ lineTotal }} €
-                    </td>
-                </tr>
-                {% set total = total + lineTotal %}
-            {% else %}
-                <tr>
-                    <td class="py-2 px-4" colspan="4">Aucune commande n'a été passée.</td>
-                </tr>
-            {% endfor %}
-            <tr class="bg-gray-100 dark:bg-gray-700">
-                <td colspan="3" class="text-right px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Prix total commande :
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ total }} €
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container mx-auto px-4 sm:px-8">
+    <div class="py-8">
+        <a href="{{ path('supplier_orders') }}" class="mb-4 inline-block text-blue-600 hover:text-blue-800 font-medium">Retour à la liste des commandes</a>
+        <div class="shadow overflow-hidden rounded border-b border-gray-200">
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-800 text-black">
+                    <tr>
+                        <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Nom du produit</th>
+                        <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Quantité de produits commandés</th>
+                        <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Prix à l'unité</th>
+                        <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Prix total produits</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    {% set total = 0 %}
+                    {% for orderline in orderlines %}
+                        {% set lineTotal = orderline.quantity * orderline.product.price %}
+                        <tr class="border-t border-gray-200">
+                            <td class="px-4 py-3">{{ orderline.product.name }}</td>
+                            <td class="px-4 py-3">{{ orderline.quantity }}</td>
+                            <td class="px-4 py-3">{{ orderline.product.price }} €</td>
+                            <td class="px-4 py-3">{{ lineTotal }} €</td>
+                        </tr>
+                        {% set total = total + lineTotal %}
+                    {% else %}
+                        <tr>
+                            <td class="py-4 px-6" colspan="4">Aucune commande n'a été passée.</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="bg-gray-100">
+                        <td colspan="3" class="text-right px-6 py-4 font-medium text-gray-900">Prix total commande :</td>
+                        <td class="px-6 py-4 font-medium text-gray-900">{{ total }} €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
 {% endblock %}

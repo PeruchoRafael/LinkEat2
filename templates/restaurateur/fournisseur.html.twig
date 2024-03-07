@@ -4,15 +4,21 @@
 
 {% block body %}
 <div class="container mx-auto mt-10">
-    <div class="flex justify-center mb-4">
-        <h1 class="text-4xl font-bold text-center">Nos Fournisseurs</h1>
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-4xl font-bold">Nos Fournisseurs</h1>
+        <select id="categoryFilter" class="px-4 py-2 border rounded">
+            <option value="">Filtrer par type</option>
+            {% for category in categories %}
+                <option value="{{ category.name }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
     </div>
     <div class="flex justify-center mb-4">
         <input type="text" id="searchInput" placeholder="Rechercher un fournisseur..." class="px-4 py-2 border rounded">
     </div>
     <div id="fournisseursList" class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         {% for fournisseur in fournisseurs %}
-            <div class="fournisseur bg-white rounded-lg shadow-lg p-4" data-name="{{ fournisseur.companyName|lower }}" data-id="{{ fournisseur.id }}">
+            <div class="fournisseur bg-white rounded-lg shadow-lg p-4" data-name="{{ fournisseur.companyName|lower }}" data-category="{{ fournisseur.category.name|lower }}">
                 <h2 class="text-xl font-bold">{{ fournisseur.companyName }}</h2>
                 <p>{{ fournisseur.description }}</p>
                 <address>{{ fournisseur.address }}, {{ fournisseur.city }}</address>
@@ -20,7 +26,12 @@
                 <div class="mt-4">
                     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#{{ fournisseur.category.name }}</span>
                 </div>
-                <button class="toggle-favorites mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Ajouter aux favoris</button>
+                <a href="{{ path('fournisseur_profil', {'id': fournisseur.id}) }}" class="mt-2 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Voir le profil</a>
+                <button class="toggle-favorite mt-2" data-id="{{ fournisseur.id }}" data-name="{{ fournisseur.companyName }}" aria-label="Toggle Favorite">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hover:text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.847 5.695a1 1 0 00.95.69h5.988c.969 0 1.371 1.24.588 1.81l-4.833 3.515a1 1 0 00-.364 1.118l1.847 5.695c.3.921-.755 1.688-1.54 1.118l-4.833-3.515a1 1 0 00-1.175 0l-4.833 3.515c-.785.57-1.84-.197-1.54-1.118l1.847-5.695a1 1 0 00-.364-1.118l-4.833-3.515c-.783-.57-.38-1.81.588-1.81h5.988a1 1 0 00.95-.69l1.847-5.695z" />
+                    </svg>
+                </button>
             </div>
         {% else %}
             <p>Aucun fournisseur trouvé.</p>
@@ -31,48 +42,9 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const fournisseurs = document.querySelectorAll('.fournisseur');
-
-    searchInput.addEventListener('input', function() {
-        const searchValue = this.value.toLowerCase();
-        
-        fournisseurs.forEach(function(fournisseur) {
-            const name = fournisseur.getAttribute('data-name');
-            if (name.includes(searchValue)) {
-                fournisseur.style.display = '';
-            } else {
-                fournisseur.style.display = 'none';
-            }
-        });
-    });
-
-    document.querySelectorAll('.toggle-favorites').forEach(button => {
-        const fournisseurId = button.closest('.fournisseur').getAttribute('data-id');
-        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        
-        if (favorites.includes(fournisseurId)) {
-            button.textContent = 'Retirer des favoris';
-        } else {
-            button.textContent = 'Ajouter aux favoris';
-        }
-
-        button.addEventListener('click', function() {
-            let index = favorites.indexOf(fournisseurId);
-            if (index === -1) {
-                favorites.push(fournisseurId);
-                button.textContent = 'Retirer des favoris';
-            } else {
-                favorites.splice(index, 1);
-                button.textContent = 'Ajouter aux favoris';
-            }
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-        });
-    });
-});
-</script>
+<script src="{{ asset('js/favoritesToggle.js') }}"></script>
+<script src="{{ asset('js/searchAndFilterFournisseur.js') }}"></script>
+<script src="{{ asset('js/searchFournisseur.js') }}"></script>
 
 <style>
     .container {

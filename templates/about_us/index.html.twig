@@ -6,34 +6,41 @@
 <div class="relative bg-gradient-to-r from-blue-900 to-blue-800 text-black py-20 text-center">
     <div class="absolute inset-0 bg-no-repeat bg-cover" style="background-image: url('{{ asset('assets/test-bg.jpg') }}'); opacity: 0.5;"></div>
     <div class="container mx-auto relative z-10">
-        <h1 class="text-5xl font-extrabold mb-6 leading-tight text-blue-900">
-            Connectez-vous avec des <span class="text-blue-400">restaurateurs</span> et des <span class="text-blue-400">fournisseurs</span>
+        <h1 class="text-5xl font-extrabold mb-6 leading-tight text-black animate-pulse">
+            Connectez-vous avec des <span class="text-blue-300">restaurateurs</span> et des <span class="text-blue-300">fournisseurs</span>
         </h1>
-
         <p class="text-xl mb-8">Découvrez de nouvelles opportunités pour faire prospérer votre entreprise avec notre plateforme dédiée.</p>
-        <a href="{{ path('app_sign_up') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:-translate-y-1 shadow-lg">Rejoignez-nous</a>
+        <a href="{{ path('app_sign_up') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">Rejoignez-nous</a>
     </div>
 </div>
 
 <div class="bg-blue-100 py-16">
     <div class="container mx-auto px-4 sm:px-8">
-        <h2 class="text-4xl font-extrabold mb-12 text-center text-blue-900">Ce que nous offrons</h2>
+        <h2 class="text-4xl font-extrabold mb-12 text-center text-blue-800">Ce que nous offrons</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div class="p-6 bg-white rounded-lg shadow-xl hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-semibold mb-3">Innovation</h3>
-                <p>Une approche novatrice pour connecter l'industrie de la restauration et les producteurs de qualité.</p>
+            <div class="p-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 ease-in-out">
+                <div class="transform transition duration-500 hover:scale-110">
+                    <h3 class="text-2xl font-semibold mb-3">Innovation</h3>
+                    <p>Une approche novatrice pour connecter l'industrie de la restauration et les producteurs de qualité.</p>
+                </div>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-xl hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-semibold mb-3">Facilité</h3>
-                <p>Une plateforme intuitive pour simplifier vos transactions et vous faire gagner du temps.</p>
+            <div class="p-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 ease-in-out">
+                <div class="transform transition duration-500 hover:scale-110">
+                    <h3 class="text-2xl font-semibold mb-3">Facilité</h3>
+                    <p>Une plateforme intuitive pour simplifier vos transactions et vous faire gagner du temps.</p>
+                </div>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-xl hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-semibold mb-3">Communauté</h3>
-                <p>Rejoignez une communauté dynamique de professionnels partageant les mêmes idées et valeurs.</p>
+            <div class="p-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 ease-in-out">
+                <div class="transform transition duration-500 hover:scale-110">
+                    <h3 class="text-2xl font-semibold mb-3">Communauté</h3>
+                    <p>Rejoignez une communauté dynamique de professionnels partageant les mêmes idées et valeurs.</p>
+                </div>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-xl hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-semibold mb-3">Support</h3>
-                <p>Un service clientèle attentif et réactif pour vous accompagner à chaque étape de votre parcours.</p>
+            <div class="p-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 ease-in-out">
+                <div class="transform transition duration-500 hover:scale-110">
+                    <h3 class="text-2xl font-semibold mb-3">Support</h3>
+                    <p>Un service clientèle attentif et réactif pour vous accompagner à chaque étape de votre parcours.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -41,22 +48,23 @@
 
 <div class="bg-white py-16">
     <div class="container mx-auto px-4 sm:px-8">
-        <h2 class="text-3xl font-extrabold mb-12 text-center text-blue-900">Rencontrez Notre Équipe</h2>
+        <h2 class="text-3xl font-extrabold mb-12 text-center text-blue-800">Rencontrez Notre Équipe</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center transition-transform duration-300 hover:scale-105">
-                <img src="{{ asset('assets/personne1.jpg') }}" alt="Romain" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover shadow-lg">
+            <div class="text-center transition-transform duration-300 ease-in-out hover:scale-105">
+                <img src="{{ asset('assets/personne1.jpg') }}" alt="Romain" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover shadow-lg hover:shadow-2xl">
                 <h3 class="text-xl font-bold">Romain</h3>
                 <p class="text-gray-600">Co-fondateur</p>
             </div>
-            <div class="text-center transition-transform duration-300 hover:scale-105">
-                <img src="{{ asset('assets/personne2.jpeg') }}" alt="Nourdyne" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover shadow-lg">
+            <div class="text-center transition-transform duration-300 ease-in-out hover:scale-105">
+                <img src="{{ asset('assets/personne2.jpeg') }}" alt="Nourdyne" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover shadow-lg hover:shadow-2xl">
                 <h3 class="text-xl font-bold">Nourdyne</h3>
                 <p class="text-gray-600">Co-fondateur</p>
             </div>
-            <div class="text-center transition-transform duration-300 hover:scale-105">
-                <img src="{{ asset('assets/personne3.jpg') }}" alt="Rafaël" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover shadow-lg">
+            <div class="text-center transition-transform duration-300 ease-in-out hover:scale-105">
+                <img src="{{ asset('assets/personne3.jpg') }}" alt="Rafaël" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover shadow-lg hover:shadow-2xl">
                 <h3 class="text-xl font-bold">Rafaël</h3>
-             	<p class="text-gray-600">Co-fondateur</p>
+                <p class="text-gray-600">Co-fondateur</p>
+            </div>
         </div>
     </div>
 </div>
@@ -65,8 +73,7 @@
     <div class="container mx-auto text-center">
         <h2 class="text-4xl font-bold mb-6">Vous avez des questions ?</h2>
         <p class="mb-8">Notre équipe est prête à répondre à toutes vos interrogations et vous accompagner.</p>
-<a href="{{ path('app_contact') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300">Contactez-nous</a>
-</div>
-
+        <a href="{{ path('app_contact') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">Contactez-nous</a>
+    </div>
 </div>
 {% endblock %}

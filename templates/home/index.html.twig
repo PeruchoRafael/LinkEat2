@@ -3,24 +3,60 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-
-    <div class="items-center pt-[120px] flex flex-col md:h-[90.6vh] bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/test-bg.jpg') }}');">
-
-    
-        <h1 class="text-[45px] ">
-        Le site de mise en relation entre
-        <span class="text-blue-500">restaurateur</span>
-        et
-        <span class="text-blue-500">fournisseur</span>
-        </h1>
-
-
-        <p class="" style="padding-top: 12px; padding-bottom: 12px; font-size:18px;">Dynamisez votre restaurant ou bien trouvez une nouvelle clientèle grâce à une plateforme qui facilite l'accès aux clients de qualité.</p>
-
-        <a href="{{ path('app_sign_up') }}" role="button" class="inline-block text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-[50px]" style="border-radius:15px; width:110px; margin-top: 50px;">Démarrez</a>
-
-        
+<div class="relative bg-blue-600">
+    <div class="parallax bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/test-bg.jpg') }}'); height: 100vh; background-attachment: fixed;">
+        <div class="bg-blue-600 bg-opacity-70 flex flex-col justify-center items-center text-center text-black px-4 py-20 min-h-screen">
+            <h1 class="text-5xl font-bold mb-4">Connectez-vous avec des <span class="text-blue-200">restaurateurs</span> et des <span class="text-blue-200">fournisseurs</span></h1>
+            <p class="mb-8 text-xl max-w-md mx-auto">Dynamisez votre restaurant ou bien trouvez une nouvelle clientèle grâce à une plateforme qui facilite l'accès aux clients de qualité.</p>
+            <a href="{{ path('app_sign_up') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out">Démarrez</a>
+        </div>
     </div>
+</div>
 
-    
+<div class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-blue-600 mb-12">Pourquoi nous choisir ?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="transform hover:scale-105 transition-transform duration-300 bg-blue-50 rounded-lg p-6 shadow-lg">
+                <h3 class="text-xl font-semibold mb-3 text-blue-600">Une large gamme de fournisseurs</h3>
+                <p>Accédez à une vaste sélection de fournisseurs de qualité, adaptés à tous les besoins de votre restaurant.</p>
+            </div>
+            <div class="transform hover:scale-105 transition-transform duration-300 bg-blue-50 rounded-lg p-6 shadow-lg">
+                <h3 class="text-xl font-semibold mb-3 text-blue-600">Facilité d'utilisation</h3>
+                <p>Notre plateforme est conçue pour être intuitive et facile à utiliser, vous permettant de gagner du temps.</p>
+            </div>
+            <div class="transform hover:scale-105 transition-transform duration-300 bg-blue-50 rounded-lg p-6 shadow-lg">
+                <h3 class="text-xl font-semibold mb-3 text-blue-600">Soutien et accompagnement</h3>
+                <p>Bénéficiez d'un accompagnement personnalisé pour optimiser vos achats et développer votre activité.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-16 bg-gradient-to-r from-blue-500 to-blue-600 text-black">
+    <div class="container mx-auto text-center px-4">
+        <h2 class="text-3xl font-bold mb-6">Rejoignez notre communauté</h2>
+        <p class="mb-8 max-w-2xl mx-auto">Une communauté dynamique de restaurateurs et fournisseurs vous attend. Ensemble, atteignons de nouveaux sommets.</p>
+        <a href="{{ path('app_sign_up') }}" class="bg-blue-400 hover:bg-blue-500 font-bold py-3 px-8 rounded-full transition duration-300">Inscrivez-vous maintenant</a>
+    </div>
+</div>
+
+<div class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-blue-600 mb-12">Ils nous font confiance</h2>
+        <div class="flex flex-wrap justify-center items-center gap-8">
+            <div class="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center">Logo 1</div>
+            <div class="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center">Logo 2</div>
+            <div class="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center">Logo 3</div>
+        </div>
+    </div>
+</div>
+
+<div class="py-16 bg-gradient-to-l from-blue-500 to-blue-600 text-black">
+    <div class="container mx-auto text-center px-4">
+        <h2 class="text-3xl font-bold mb-6">Contactez-nous</h2>
+        <p class="mb-8 max-w-xl mx-auto">Vous avez des questions ou besoin d'informations supplémentaires ? Notre équipe est là pour vous aider.</p>
+        <a href="{{ path('app_contact') }}" class="bg-blue-400 hover:bg-blue-500 font-bold py-3 px-8 rounded-full transition duration-300">Envoyer un message</a>
+    </div>
+</div>
 {% endblock %}
