@@ -5,7 +5,7 @@
         <div class="flex flex-col md:flex-row md:justify-between md:items-center">
             <div class="flex justify-between items-center">
                 <div class="text-xl font-semibold text-gray-700">
-                    <a class="text-2xl font-bold text-gray-800 dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300" href="{% if is_granted('ROLE_SUPPLIER') %}{{ path('supplier_dashboard') }}{% elseif is_granted('ROLE_RESTAURATEUR') %}{{ path('home_restaurateur') }}{% else %}{{ path('app_home') }}{% endif %}">LinkEat</a>
+                    <a class="text-2xl font-bold text-gray-800 dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300" href="{% if is_granted('ROLE_SUPPLIER') %}{{ path('app_home_supplier') }}{% elseif is_granted('ROLE_RESTAURATEUR') %}{{ path('home_restaurateur') }}{% else %}{{ path('app_home') }}{% endif %}">LinkEat</a>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -22,7 +22,7 @@
                 {% set currentRoute = app.request.attributes.get('_route') %}
                 {% if is_granted('ROLE_SUPPLIER') %}
                     {% if currentRoute != 'supplier_dashboard' %}
-                        <a href="{{ path('supplier_dashboard') }}" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300">Tableau de bord</a>
+                        <a href="{{ path('app_home_supplier') }}" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300">Tableau de bord</a>
                     {% endif %}
                 {% elseif is_granted('ROLE_RESTAURATEUR') %}
                     {% if currentRoute != 'home_restaurateur' %}
