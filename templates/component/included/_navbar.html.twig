@@ -28,6 +28,9 @@
                     {% if currentRoute != 'home_restaurateur' %}
                         <a href="{{ path('home_restaurateur') }}" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300">Accueil</a>
                     {% endif %}
+                    {% if currentRoute != 'suppliers' %}
+                                <a class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300" href="{{ path('suppliers') }}">Nos fournisseurs</a>
+                    {% endif %}
                     <!-- Menu déroulant pour les restaurateurs -->
                     <div class="relative">
                         <button id="dropdownButton" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 flex items-center" aria-haspopup="true" aria-expanded="false">
