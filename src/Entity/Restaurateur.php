@@ -20,10 +20,14 @@ class Restaurateur extends User
     #[ORM\OneToMany(mappedBy: 'restaurateur', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'restaurateur')]
+    private Collection $paniers;
+
     public function __construct()
 {
     parent::__construct(); // Ajoutez cette ligne pour appeler le constructeur de User
     $this->orders = new ArrayCollection();
+    $this->paniers = new ArrayCollection();
 }
     
     public function getPhone(): ?int
@@ -79,6 +83,36 @@ class Restaurateur extends User
             // set the owning side to null (unless already changed)
             if ($order->getRestaurateur() === $this) {
                 $order->setRestaurateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setRestaurateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getRestaurateur() === $this) {
+                $panier->setRestaurateur(null);
             }
         }
 

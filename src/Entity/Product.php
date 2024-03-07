@@ -36,9 +36,13 @@ class Product
     #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'products')]
     private ?Supplier $supplier = null;
 
+    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'product')]
+    private Collection $paniers;
+
     public function __construct()
     {
         $this->orderlines = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
     // ID
@@ -151,6 +155,33 @@ class Product
     public function setSupplier(?Supplier $supplier): self
     {
         $this->supplier = $supplier;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            $panier->removeProduct($this);
+        }
+
         return $this;
     }
 }
