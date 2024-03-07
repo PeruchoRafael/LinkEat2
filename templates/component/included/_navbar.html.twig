@@ -54,10 +54,10 @@
                 {% endif %}
                 {% if not app.user %}
                     {% if currentRoute != 'login' %}
-                        <a href="{{ path('login') }}" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300">Connexion</a>
+                        <a href="{{ path('app_login') }}" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300">Connexion</a>
                     {% endif %}
                     {% if currentRoute != 'register' %}
-                        <a href="{{ path('register') }}" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300">Inscription</a>
+                        <a href="{{ path('app_sign_up') }}" class="py-2 px-2 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300">Inscription</a>
                     {% endif %}
                 {% endif %}
             </div>
