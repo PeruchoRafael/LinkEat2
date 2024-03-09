@@ -24,7 +24,7 @@ class RestaurateurType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom *',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([
@@ -38,7 +38,7 @@ class RestaurateurType extends AbstractType
             ])
 
             ->add('first_name', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'Prénom *',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([
@@ -52,7 +52,7 @@ class RestaurateurType extends AbstractType
             ])
 
             ->add('email', TextType::class, [
-                'label' => 'Saisissez votre adresse mail',
+                'label' => 'Saisissez votre adresse mail *',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([
@@ -66,7 +66,7 @@ class RestaurateurType extends AbstractType
 
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Saisissez votre Mot de passe',
+                'label' => 'Saisissez votre Mot de passe *',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([
@@ -80,7 +80,7 @@ class RestaurateurType extends AbstractType
             ])
 
             ->add('phone', IntegerType::class, [ // Utilisez IntegerType pour les numéros de téléphone
-                'label' => 'Numéro de téléphone',
+                'label' => 'Numéro de téléphone *',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([
@@ -94,7 +94,7 @@ class RestaurateurType extends AbstractType
             ])
 
             ->add('location', TextareaType::class, [ // Utilisez TextareaType au lieu de TextAreaType
-                'label' => 'Adresse',
+                'label' => 'Adresse *',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([

@@ -28,7 +28,7 @@ class SupplierType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => "Adresse email",
+                'label' => "Adresse email *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une adresse mail valide'
@@ -38,7 +38,7 @@ class SupplierType extends AbstractType
 
             ->add('password', PasswordType::class, [
                 'required' => true,
-                'label' => "Mot de passe",
+                'label' => "Mot de passe *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un mot de passe'
@@ -70,7 +70,7 @@ class SupplierType extends AbstractType
 
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => "Prénom",
+                'label' => "Prénom *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un prénom'
@@ -84,7 +84,7 @@ class SupplierType extends AbstractType
 
             ->add('firstName', TextType::class, [
                 'required' => true,
-                'label' => "Nom de famille",
+                'label' => "Nom de famille *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un nom'
@@ -98,7 +98,7 @@ class SupplierType extends AbstractType
 
             ->add('companyName', TextType::class, [
                 'required' => true,
-                'label' => "Nom de l\'agence",
+                'label' => "Nom de l\'agence *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir le nom de votre agence'
@@ -112,7 +112,7 @@ class SupplierType extends AbstractType
 
             ->add('description', TextareaType::class, [
                 'required' => true,
-                'label' => "Description personnelle",
+                'label' => "Description personnelle *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une description'
@@ -126,7 +126,7 @@ class SupplierType extends AbstractType
 
             ->add('siretNumber', TelType::class, [
                 'required' => true,
-                'label' => "Numéro de SIRET",
+                'label' => "Numéro de SIRET *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un numéro de SIRET'
@@ -140,7 +140,7 @@ class SupplierType extends AbstractType
 
             ->add('postalAddress', TelType::class, [
                 'required' => true,
-                'label' => "Adresse postale",
+                'label' => "Adresse postale *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir votre adresse postale'
@@ -154,7 +154,7 @@ class SupplierType extends AbstractType
 
             ->add('country', CountryType::class, [
                 'required' => true,
-                'label' => "Pays",
+                'label' => "Pays *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un pays'
@@ -164,7 +164,7 @@ class SupplierType extends AbstractType
 
             ->add('city', TextType::class, [
                 'required' => true,
-                'label' => "Ville",
+                'label' => "Ville *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une ville'
@@ -178,7 +178,7 @@ class SupplierType extends AbstractType
 
             ->add('address', TextareaType::class, [
                 'required' => true,
-                'label' => "Adresse complète de l'agence",
+                'label' => "Adresse complète de l'agence *",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une adresse'
