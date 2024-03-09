@@ -18,15 +18,15 @@ class Panier
     #[ORM\ManyToOne(inversedBy: 'paniers')]
     private ?Restaurateur $restaurateur = null;
 
-    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'paniers')]
-    private Collection $product;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?order $command = null;
 
+    #[ORM\OneToMany(targetEntity: PanierItem::class, mappedBy: 'panier', cascade: ['persist', 'remove'])]
+    private Collection $panierItems;
+
     public function __construct()
     {
-        $this->product = new ArrayCollection();
+        $this->panierItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,30 +46,6 @@ class Panier
         return $this;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProduct(): Collection
-    {
-        return $this->product;
-    }
-
-    public function addProduct(Product $product): static
-    {
-        if (!$this->product->contains($product)) {
-            $this->product->add($product);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): static
-    {
-        $this->product->removeElement($product);
-
-        return $this;
-    }
-
     public function getCommand(): ?order
     {
         return $this->command;
@@ -78,6 +54,36 @@ class Panier
     public function setCommand(?order $command): static
     {
         $this->command = $command;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PanierItem>
+     */
+    public function getPanierItems(): Collection
+    {
+        return $this->panierItems;
+    }
+
+    public function addPanierItem(PanierItem $panierItem): static
+    {
+        if (!$this->panierItems->contains($panierItem)) {
+            $this->panierItems->add($panierItem);
+            $panierItem->setPanier($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierItem(PanierItem $panierItem): static
+    {
+        if ($this->panierItems->removeElement($panierItem)) {
+            // set the owning side to null (unless already changed)
+            if ($panierItem->getPanier() === $this) {
+                $panierItem->setPanier(null);
+            }
+        }
 
         return $this;
     }

@@ -36,13 +36,13 @@ class Product
     #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'products')]
     private ?Supplier $supplier = null;
 
-    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'product')]
-    private Collection $paniers;
+    #[ORM\OneToMany(targetEntity: PanierItem::class, mappedBy: 'product')]
+    private Collection $panierItems;
 
     public function __construct()
     {
         $this->orderlines = new ArrayCollection();
-        $this->paniers = new ArrayCollection();
+        $this->panierItems = new ArrayCollection();
     }
 
     // ID
@@ -159,27 +159,30 @@ class Product
     }
 
     /**
-     * @return Collection<int, Panier>
+     * @return Collection<int, PanierItem>
      */
-    public function getPaniers(): Collection
+    public function getPanierItems(): Collection
     {
-        return $this->paniers;
+        return $this->panierItems;
     }
 
-    public function addPanier(Panier $panier): static
+    public function addPanierItem(PanierItem $panierItem): static
     {
-        if (!$this->paniers->contains($panier)) {
-            $this->paniers->add($panier);
-            $panier->addProduct($this);
+        if (!$this->panierItems->contains($panierItem)) {
+            $this->panierItems->add($panierItem);
+            $panierItem->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removePanier(Panier $panier): static
+    public function removePanierItem(PanierItem $panierItem): static
     {
-        if ($this->paniers->removeElement($panier)) {
-            $panier->removeProduct($this);
+        if ($this->panierItems->removeElement($panierItem)) {
+            // set the owning side to null (unless already changed)
+            if ($panierItem->getProduct() === $this) {
+                $panierItem->setProduct(null);
+            }
         }
 
         return $this;

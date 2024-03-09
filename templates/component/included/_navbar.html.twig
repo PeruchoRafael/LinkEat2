@@ -38,8 +38,8 @@
                         </button>
                         <div id="dropdown" class="hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
                             <!-- Conditionally display links if they are not the current route -->
-                            {% if currentRoute != 'restaurateur_cart' %}
-                                <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="{{ path('restaurateur_cart') }}">Panier</a>
+                            {% if currentRoute != 'cart_index' %}
+                                <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="{{ path('cart_index') }}">Panier</a>
                             {% endif %}
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">Mon profil</a>
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="{{ path('app_logout') }}">Déconnexion</a>

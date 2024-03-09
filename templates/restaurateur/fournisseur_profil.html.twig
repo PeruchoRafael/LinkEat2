@@ -37,11 +37,15 @@
                 {% if fournisseur.products|length > 0 %}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {% for product in fournisseur.products %}
-                            <div class="p-4 bg-gray-100 rounded-lg">
-                                <h4 class="font-semibold">{{ product.name }}</h4>
-                                <p>{{ product.description }}</p>
-                            </div>
-                        {% endfor %}
+    <div class="p-4 bg-gray-100 rounded-lg">
+        <h4 class="font-semibold">{{ product.name }}</h4>
+        <p>{{ product.description }}</p>
+        <!-- Notez l'utilisation de loop.index pour créer un identifiant unique -->
+        <button id="addToCart{{ loop.index }}" data-product-id="{{ product.id }}" class="addToCartButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex justify-center items-center w-[26%] mt-4">
+            Ajouter au panier
+        </button>
+    </div>
+{% endfor %}
                     </div>
                 {% else %}
                     <p class="text-gray-700">Ce fournisseur n'a pas encore de produits listés.</p>
@@ -50,4 +54,49 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var addToCartButtons = document.querySelectorAll('.addToCartButton');
+
+    addToCartButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var productId = this.getAttribute('data-product-id');
+            addToCart(productId);
+        });
+    });
+});
+
+function addToCart(productId) {
+    var formData = new FormData();
+    formData.append('productId', productId);
+
+    fetch('/add', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            // Ajoutez ici d'autres en-têtes au besoin
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Réponse réseau non ok.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if(data.status === 'success') {
+            alert('Produit ajouté avec succès!');
+        } else {
+            alert('Erreur lors de l\'ajout du produit: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Il y a eu un problème avec l\'opération fetch: ', error.message);
+    });
+}
+</script>
 {% endblock %}
